@@ -28,3 +28,7 @@
 .navbar-link p {
   font-size: 0.8rem;
 }
+
+.navbar-logoutContainer {
+  margin-left: 2rem;
+}

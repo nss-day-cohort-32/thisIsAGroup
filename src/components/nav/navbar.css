@@ -1,0 +1,30 @@
+.navbar-flexrow {
+  display: flex;
+  flex-direction: row;
+}
+
+.navbar {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  justify-content: space-between;
+}
+
+.navbar-title {
+  font-size: 2.2rem;
+  letter-spacing: 1px;
+}
+
+.navbar-link,
+.navbar-link:visited {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 3.8rem;
+  color: white;
+  padding: 0.3rem 0;
+}
+
+.navbar-link p {
+  font-size: 0.8rem;
+}

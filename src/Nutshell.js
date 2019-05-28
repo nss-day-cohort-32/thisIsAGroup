@@ -5,7 +5,7 @@ import ApplicationViews from "./components/ApplicationViews";
 
 export default class Nutshell extends Component {
   state = {
-    isUserLoggedIn: false
+    isUserLoggedIn: true
   };
 
   render() {

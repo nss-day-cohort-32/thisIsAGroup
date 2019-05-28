@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import API from "../modules/dbCalls";
+import { withRouter } from "react-router";
+//import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";
 import Events from "./events/Events";
 import News from "./news/News";
 import Chat from "./chat/Chat";
 import Login from "./auth/Login";
+//import { ProtectedRoute } from "./ProtectedRoute";
 
-export default class ApplicationViews extends Component {
+class ApplicationViews extends Component {
   state = {
     loggedInUser: [],
     tasks: [],
@@ -23,28 +25,17 @@ export default class ApplicationViews extends Component {
   //   });
   // }
 
-  redirectOrGoTo = route => {
-    if (!this.props.loggedIn) {
-      return <Redirect to="/login" />;
-    } else return route;
-  };
-
   render() {
     return (
       <>
+        <Route path="/login" component={Login} />
         <Route
           exact
           path="/"
           render={props => {
-            this.redirectOrGoTo(<News {...props} />);
-          }}
-        />
-
-        <Route
-          exact
-          path="/tasks"
-          render={props => {
-            this.redirectOrGoTo(<Tasks {...props} />);
+            if (this.props.loggedIn) {
+              return <News />;
+            } else return <Redirect to="/login" />;
           }}
         />
 
@@ -52,7 +43,9 @@ export default class ApplicationViews extends Component {
           exact
           path="/events"
           render={props => {
-            this.redirectOrGoTo(<Events {...props} />);
+            if (this.props.loggedIn) {
+              return <Events />;
+            } else return <Redirect to="/login" />;
           }}
         />
 
@@ -60,14 +53,52 @@ export default class ApplicationViews extends Component {
           exact
           path="/chat"
           render={props => {
-            this.redirectOrGoTo(<Chat {...props} />);
+            if (this.props.loggedIn) {
+              return <Chat />;
+            } else return <Redirect to="/login" />;
           }}
         />
 
-        <Route path="/login">
-          <Login />
-        </Route>
+        <Route
+          exact
+          path="/tasks"
+          render={props => {
+            if (this.props.loggedIn) {
+              return <Tasks />;
+            } else return <Redirect to="/login" />;
+          }}
+        />
+        {/*
+        <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/"
+          render={props => <News {...props} />}
+        />
+
+        <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/events"
+          render={props => <Events {...props} />}
+        />
+
+        <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/tasks"
+          render={props => <Tasks {...props} />}
+        />
+
+        <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/chat"
+          render={props => <Chat {...props} />}
+        /> */}
       </>
     );
   }
 }
+
+export default withRouter(ApplicationViews);

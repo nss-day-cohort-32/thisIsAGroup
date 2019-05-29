@@ -1,9 +1,8 @@
 const API = {
-  loginUser: function(username, email) {
-    return fetch(
-      `http://localhost:8088/users?username=${username}&email=${email}`
-    ).then(response => response.json());
-  },
+    loginUser: function (username, password) {
+        return fetch(`http://localhost:8088/users?username=${username}&password=${password}`)
+            .then(response => response.json())
+    },
   getAllUsers: function() {
     return fetch("http://localhost:8088/users").then(response =>
       response.json()

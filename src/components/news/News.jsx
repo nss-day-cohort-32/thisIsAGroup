@@ -4,10 +4,20 @@ import NewsItem from "./NewsItem";
 import API from '../../modules/dbCalls'
 
 export default class News extends Component {
-  makeNews = news => news.map(item => <NewsItem key={item.id} item={item} />);
+  makeNews = news => news.map(item => <NewsItem delete={this.confirmDelete} key={item.id} item={item} />);
 
   state = {
     news: []
+  }
+
+  confirmDelete = (newsId) => {
+    API.deleteNews(newsId)
+      .then(_reply => {
+        API.getUserNews(sessionStorage.getItem("activeUser"))
+          .then(news => {
+            this.setState({ news })
+          })
+      })
   }
 
   async componentDidMount() {

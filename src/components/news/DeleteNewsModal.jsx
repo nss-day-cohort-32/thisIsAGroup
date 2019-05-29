@@ -5,10 +5,10 @@ import './news.css'
 
 export class DeleteNewsModal extends Component {
 
-
-    confirmDelete = () => {
+    handleDel = () => {
         this.props.delete(this.props.newsId)
     }
+
     render() {
         return (
             <Dialog
@@ -25,7 +25,7 @@ export class DeleteNewsModal extends Component {
                         </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button className="deleteBtn" variant="contained" onClick={this.confirmDelete}>YES</Button>
+                    <Button className="deleteBtn" variant="contained" onClick={this.handleDel}>YES</Button>
                     <Button className="" variant="contained" onClick={this.props.hideModal}>NO</Button>
                 </DialogActions>
 

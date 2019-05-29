@@ -14,9 +14,9 @@ class ApplicationViews extends Component {
     loggedInUser: [],
     tasks: [],
     friends: [],
-    news: [],
+    news: [{ id: 1, name: "Blah" }],
     messages: [],
-    events: [],
+    events: [{ id: 1, name: "Blah" }]
   };
 
   // async fetchAll() {
@@ -33,7 +33,7 @@ class ApplicationViews extends Component {
           path="/"
           render={props => {
             if (this.props.loggedIn) {
-              return <News />;
+              return <News news={this.state.news} />;
             } else return <Redirect to="/login" />;
           }}
         />
@@ -43,7 +43,7 @@ class ApplicationViews extends Component {
           path="/events"
           render={props => {
             if (this.props.loggedIn) {
-              return <Events />;
+              return <Events events={this.state.events} />;
             } else return <Redirect to="/login" />;
           }}
         />

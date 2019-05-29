@@ -14,7 +14,7 @@ import "./navbar.css";
 export default class Navbar extends Component {
   state = {
     isUserLoggedIn: true,
-    tabValue: 0
+    tabValue: "/"
   };
 
   links = [
@@ -59,15 +59,23 @@ export default class Navbar extends Component {
     this.setState({ tabValue });
   };
 
+  handleLogout = () => {
+    console.log("Logout");
+    // do something
+  };
+
+  makeIcon = Icon => <Icon />;
+
   makeLink = link => {
-    const Icon = link.icon;
     return (
-      <li key={link.key} className="navbar-item">
-        <Link className="navbar-link" to="/">
-          <Icon className="navbar-icon" />
-          <p>{link.name}</p>
-        </Link>
-      </li>
+      <Tab
+        key={link.key}
+        label={link.name}
+        value={link.href}
+        component={Link}
+        to={link.href}
+        icon={this.makeIcon(link.icon)}
+      />
     );
   };
 
@@ -79,11 +87,11 @@ export default class Navbar extends Component {
             Nutshell
           </Typography>
           <div className="navbar-linkContainer navbar-flexrow">
-            <ul className="navbar-ul navbar-flexrow">
+            <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
               {this.links.map(this.makeLink)}
-            </ul>
+            </Tabs>
 
-            <div className="navbar-logoutContainer">
+            <div className="navbar-logoutContainer" onClick={this.handleLogout}>
               {this.makeLink(this.logoutLink)}
             </div>
           </div>

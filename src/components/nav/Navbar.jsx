@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Typography } from "@material-ui/core";
+import { AppBar } from "@material-ui/core";
 import {
   Event,
   Whatshot,
-  People,
   FormatListNumbered,
   Message,
-  VerifiedUser,
   LockOpen
 } from "@material-ui/icons";
 
@@ -42,27 +40,44 @@ export default class Navbar extends Component {
 
   render() {
     return (
-      <AppBar color="primary" position="static">
-        <div className="navbar-outerContainer">
-          <Typography variant="h2" className="navbar-title">
-            Nutshell
-          </Typography>
-        </div>
-        <div className="navbar-link-container">
-          <ul className="navbar-ul">
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/news" />
-              <Whatshot />
-            </li>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/tasks" />
-              <FormatListNumbered />
-            </li>
-            <li className="navbar-item">
-              <Link className="navbar-link" to="/messages" />
-              <Message />
-            </li>
-          </ul>
+      <AppBar color="primary" position="static" className="navbar">
+        <div className="navbar navbar-flexrow">
+          <h2 className="navbar-title">Nutshell</h2>
+          <div className="navbar-linkContainer navbar-flexrow">
+            <ul className="navbar-ul navbar-flexrow">
+              <li className="navbar-item">
+                <Link className="navbar-link" to="/">
+                  <Whatshot className="navbar-icon" />
+                  <p>News</p>
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link className="navbar-link" to="/tasks">
+                  <FormatListNumbered className="navbar-icon" />
+                  <p>Tasks</p>
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link className="navbar-link" to="/events">
+                  <Event className="navbar-icon" />
+                  <p>Events</p>
+                </Link>
+              </li>
+              <li className="navbar-item">
+                <Link className="navbar-link" to="/chat">
+                  <Message className="navbar-icon" />
+                  <p>Chat</p>
+                </Link>
+              </li>
+            </ul>
+
+            <div className="navbar-logoutContainer">
+              <Link className="navbar-link" to="/login">
+                <LockOpen className="navbar-icon" />
+                <p>Logout</p>
+              </Link>
+            </div>
+          </div>
         </div>
       </AppBar>
     );

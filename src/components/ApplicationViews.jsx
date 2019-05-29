@@ -25,13 +25,6 @@ class ApplicationViews extends Component {
   //   });
   // }
 
-
-  redirectOrGoTo = route => {
-    if (!this.props.loggedIn) {
-      return <Redirect to="/login" />;
-    } else return route;
-  };
-
   render() {
     return (
       <>
@@ -39,15 +32,9 @@ class ApplicationViews extends Component {
           exact
           path="/"
           render={props => {
-            this.redirectOrGoTo(<News {...props} />);
-          }}
-        />
-
-        <Route
-          exact
-          path="/tasks"
-          render={props => {
-            this.redirectOrGoTo(<Tasks {...props} />);
+            if (this.props.loggedIn) {
+              return <News />;
+            } else return <Redirect to="/login" />;
           }}
         />
 
@@ -55,7 +42,9 @@ class ApplicationViews extends Component {
           exact
           path="/events"
           render={props => {
-            this.redirectOrGoTo(<Events {...props} />);
+            if (this.props.loggedIn) {
+              return <Events />;
+            } else return <Redirect to="/login" />;
           }}
         />
 
@@ -63,9 +52,28 @@ class ApplicationViews extends Component {
           exact
           path="/chat"
           render={props => {
-            this.redirectOrGoTo(<Chat {...props} />);
+            if (this.props.loggedIn) {
+              return <Chat />;
+            } else return <Redirect to="/login" />;
           }}
         />
+
+        <Route
+          exact
+          path="/tasks"
+          render={props => {
+            if (this.props.loggedIn) {
+              return <Tasks />;
+            } else return <Redirect to="/login" />;
+          }}
+        />
+
+        {/* <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/"
+          render={props => <News {...props} />}
+        /> */}
 
         <Route exact path="/login" render={props => {
           return <SignIn {...props} loggedIn={this.props.isUserLoggedIn}
@@ -79,6 +87,26 @@ class ApplicationViews extends Component {
             register={this.props.register} />
         }}
         />
+        {/* <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/events"
+          render={props => <Events {...props} />}
+        />
+
+        <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/tasks"
+          render={props => <Tasks {...props} />}
+        />
+
+        <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/chat"
+          render={props => <Chat {...props} />}
+        /> */}
       </>
     );
   }

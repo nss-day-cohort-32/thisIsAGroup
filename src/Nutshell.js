@@ -7,7 +7,7 @@ import API from "./modules/dbCalls"
 
 class Nutshell extends Component {
   state = {
-    isUserLoggedIn: false
+    isUserLoggedIn: true
   };
 
   login = (username, password) => {

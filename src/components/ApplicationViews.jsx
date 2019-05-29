@@ -1,20 +1,22 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
+import { withRouter } from 'react-router'
 import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";
 import Events from "./events/Events";
 import News from "./news/News";
 import Chat from "./chat/Chat";
-import Login from "./auth/Login";
+import SignIn from "./auth/Login";
+import SignUp from "./auth/SignUp"
 
-export default class ApplicationViews extends Component {
+class ApplicationViews extends Component {
   state = {
     loggedInUser: [],
     tasks: [],
     friends: [],
     news: [],
     messages: [],
-    events: []
+    events: [],
   };
 
   // async fetchAll() {
@@ -22,6 +24,7 @@ export default class ApplicationViews extends Component {
   //     tasks: await API.geta
   //   });
   // }
+
 
   redirectOrGoTo = route => {
     if (!this.props.loggedIn) {
@@ -64,10 +67,21 @@ export default class ApplicationViews extends Component {
           }}
         />
 
-        <Route path="/login">
-          <Login />
-        </Route>
+        <Route exact path="/login" render={props => {
+          return <SignIn {...props} loggedIn={this.props.isUserLoggedIn}
+            login={this.props.login} />
+        }}
+        />
+
+
+        <Route exact path="/sign-up" render={props => {
+          return <SignUp {...props} loggedIn={this.props.isUserLoggedIn}
+            register={this.props.register} />
+        }}
+        />
       </>
     );
   }
 }
+
+export default withRouter(ApplicationViews)

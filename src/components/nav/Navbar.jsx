@@ -52,7 +52,8 @@ export default class Navbar extends Component {
     name: "Logout",
     icon: LockOpen,
     href: "/login",
-    linkAction: ""
+    linkAction: "",
+    onClick: this.handleLogout
   };
 
   handleTabChange = (event, tabValue) => {
@@ -60,8 +61,7 @@ export default class Navbar extends Component {
   };
 
   handleLogout = () => {
-    console.log("Logout");
-    // do something
+    this.props.logout()
   };
 
   makeIcon = Icon => <Icon />;

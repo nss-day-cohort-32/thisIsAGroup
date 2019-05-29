@@ -53,8 +53,6 @@ export default function SignIn(props) {
     } else if (evt.target.id === "password") {
       setPassword(evt.target.value)
     }
-    console.log(email)
-    console.log(password)
   }
 
   const handleLogin = (e) => {

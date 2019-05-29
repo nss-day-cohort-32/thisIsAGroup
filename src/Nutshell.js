@@ -23,10 +23,11 @@ class Nutshell extends Component {
     })
   }
 
-  register = (username, email) => {
+  register = (username, email, password) => {
     const newUser = {
       username: username,
-      email: email
+      email: email,
+      password: password
     }
 
     API.getAllUsers().then(users => {
@@ -36,17 +37,24 @@ class Nutshell extends Component {
         alert("You are already a user")
       } else {
         API.addUser(newUser).then(newuserInfo => {
-          this.login(newuserInfo.username, newuserInfo.email)
+          this.login(newuserInfo.username, newuserInfo.password)
+          this.props.history.push('/')
         })
       }
     })
 
   }
 
+  logout = () => {
+    sessionStorage.removeItem("activeUser")
+    this.props.history.push('/login')
+  }
+
   render() {
     return (
       <>
-        <Navbar loggedIn={this.state.isUserLoggedIn} />
+        <Navbar loggedIn={this.state.isUserLoggedIn}
+          logout={this.logout} />
         <Sidebar loggedIn={this.state.isUserLoggedIn} />
         <ApplicationViews loggedIn={this.state.isUserLoggedIn}
           login={this.login} register={this.register} />

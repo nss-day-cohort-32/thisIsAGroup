@@ -8,6 +8,7 @@
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-title {
@@ -31,4 +32,8 @@
 
 .navbar-logoutContainer {
   margin-left: 2rem;
+}
+
+.navbar-linkContainer {
+  flex-grow: 0;
 }

@@ -83,9 +83,11 @@ export default class Navbar extends Component {
     return (
       <AppBar color="primary" position="static" className="navbar">
         <div className="navbar navbar-flexrow">
-          <Typography variant="h4" component="h2" color="inherit">
-            Nutshell
-          </Typography>
+          <div>
+            <Typography variant="h4" component="h2" color="inherit">
+              Nutshell
+            </Typography>
+          </div>
           <div className="navbar-linkContainer navbar-flexrow">
             <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
               {this.links.map(this.makeLink)}

@@ -1,22 +1,22 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { withRouter } from "react-router";
-//import API from "../modules/dbCalls";
+import { withRouter } from 'react-router'
+import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";
 import Events from "./events/Events";
 import News from "./news/News";
 import Chat from "./chat/Chat";
-import Login from "./auth/Login";
-//import { ProtectedRoute } from "./ProtectedRoute";
+import SignIn from "./auth/Login";
+import SignUp from "./auth/SignUp"
 
 class ApplicationViews extends Component {
   state = {
     loggedInUser: [],
     tasks: [],
     friends: [],
-    news: [],
+    news: [{ id: 1, name: "Blah" }],
     messages: [],
-    events: []
+    events: [{ id: 1, name: "Blah" }]
   };
 
   // async fetchAll() {
@@ -25,16 +25,16 @@ class ApplicationViews extends Component {
   //   });
   // }
 
+
   render() {
     return (
       <>
-        <Route path="/login" component={Login} />
         <Route
           exact
           path="/"
           render={props => {
             if (this.props.loggedIn) {
-              return <News />;
+              return <News news={this.state.news} />;
             } else return <Redirect to="/login" />;
           }}
         />
@@ -44,7 +44,7 @@ class ApplicationViews extends Component {
           path="/events"
           render={props => {
             if (this.props.loggedIn) {
-              return <Events />;
+              return <Events events={this.state.events} />;
             } else return <Redirect to="/login" />;
           }}
         />
@@ -68,15 +68,27 @@ class ApplicationViews extends Component {
             } else return <Redirect to="/login" />;
           }}
         />
-        {/*
-        <ProtectedRoute
+
+        {/* <ProtectedRoute
           loggedIn={this.props.loggedIn}
           exact
           path="/"
           render={props => <News {...props} />}
+        /> */}
+
+        <Route exact path="/login" render={props => {
+          return <SignIn {...props} loggedIn={this.props.isUserLoggedIn}
+            login={this.props.login} />
+        }}
         />
 
-        <ProtectedRoute
+
+        <Route exact path="/sign-up" render={props => {
+          return <SignUp {...props} loggedIn={this.props.isUserLoggedIn}
+            register={this.props.register} />
+        }}
+        />
+        {/* <ProtectedRoute
           loggedIn={this.props.loggedIn}
           exact
           path="/events"
@@ -101,4 +113,4 @@ class ApplicationViews extends Component {
   }
 }
 
-export default withRouter(ApplicationViews);
+export default withRouter(ApplicationViews)

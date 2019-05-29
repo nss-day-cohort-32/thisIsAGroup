@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { AppBar } from "@material-ui/core";
+import { AppBar, Typography, Tabs, Tab } from "@material-ui/core";
 import {
   Event,
   Whatshot,
@@ -14,68 +14,87 @@ import "./navbar.css";
 export default class Navbar extends Component {
   state = {
     isUserLoggedIn: true,
-    links: [
-      {
-        key: 1,
-        name: "Events",
-        icon: Event
-      },
-      {
-        key: 2,
-        name: "Messages",
-        icon: Event
-      },
-      {
-        key: 3,
-        name: "Events",
-        icon: Event
-      },
-      {
-        key: 4,
-        name: "Events",
-        icon: Event
-      }
-    ]
+    tabValue: "/"
+  };
+
+  links = [
+    {
+      key: 1,
+      name: "News",
+      icon: Whatshot,
+      href: "/",
+      linkAction: ""
+    },
+    {
+      key: 2,
+      name: "Tasks",
+      icon: FormatListNumbered,
+      href: "/tasks",
+      linkAction: ""
+    },
+    {
+      key: 3,
+      name: "Events",
+      icon: Event,
+      href: "/events",
+      linkAction: ""
+    },
+    {
+      key: 4,
+      name: "Chat",
+      icon: Message,
+      href: "/chat",
+      linkAction: ""
+    }
+  ];
+  logoutLink = {
+    key: 5,
+    name: "Logout",
+    icon: LockOpen,
+    href: "/login",
+    linkAction: ""
+  };
+
+  handleTabChange = (event, tabValue) => {
+    this.setState({ tabValue });
+  };
+
+  handleLogout = () => {
+    console.log("Logout");
+    // do something
+  };
+
+  makeIcon = Icon => <Icon />;
+
+  makeLink = link => {
+    return (
+      <Tab
+        key={link.key}
+        label={link.name}
+        value={link.href}
+        component={Link}
+        to={link.href}
+        icon={this.makeIcon(link.icon)}
+      />
+    );
   };
 
   render() {
     return (
       <AppBar color="primary" position="static" className="navbar">
         <div className="navbar navbar-flexrow">
-          <h2 className="navbar-title">Nutshell</h2>
+          <div>
+            <Typography variant="h4" component="h2" color="inherit">
+              Nutshell
+            </Typography>
+          </div>
           <div className="navbar-linkContainer navbar-flexrow">
-            <ul className="navbar-ul navbar-flexrow">
-              <li className="navbar-item">
-                <Link className="navbar-link" to="/">
-                  <Whatshot className="navbar-icon" />
-                  <p>News</p>
-                </Link>
-              </li>
-              <li className="navbar-item">
-                <Link className="navbar-link" to="/tasks">
-                  <FormatListNumbered className="navbar-icon" />
-                  <p>Tasks</p>
-                </Link>
-              </li>
-              <li className="navbar-item">
-                <Link className="navbar-link" to="/events">
-                  <Event className="navbar-icon" />
-                  <p>Events</p>
-                </Link>
-              </li>
-              <li className="navbar-item">
-                <Link className="navbar-link" to="/chat">
-                  <Message className="navbar-icon" />
-                  <p>Chat</p>
-                </Link>
-              </li>
-            </ul>
+            <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
+              {this.links.map(this.makeLink)}
+            </Tabs>
 
-            <div className="navbar-logoutContainer">
-              <Link className="navbar-link" to="/login">
-                <LockOpen className="navbar-icon" />
-                <p>Logout</p>
-              </Link>
+            <div className="navbar-logoutContainer" onClick={this.handleLogout}>
+              {this.makeLink(this.logoutLink)}
             </div>
           </div>
         </div>

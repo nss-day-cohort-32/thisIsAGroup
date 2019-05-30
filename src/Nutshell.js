@@ -4,10 +4,11 @@ import Navbar from "./components/nav/Navbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import ApplicationViews from "./components/ApplicationViews";
 import API from "./modules/dbCalls";
+import { CustomTheme } from "./components/CustomTheme";
 
 class Nutshell extends Component {
   state = {
-    isUserLoggedIn: true,
+    isUserLoggedIn: false,
     friends: []
   };
   ///////////////////////////////// start Friends Area //////////////////////////////////////
@@ -73,24 +74,26 @@ class Nutshell extends Component {
 
   logout = () => {
     sessionStorage.removeItem("activeUser");
+    this.setState({ isUserLoggedIn: false });
     this.props.history.push("/login");
   };
 
   render() {
     return (
-      <>
+      <CustomTheme>
         <Navbar loggedIn={this.state.isUserLoggedIn} logout={this.logout} />
         <Sidebar
           loggedIn={this.state.isUserLoggedIn}
           friends={this.state.friends}
           deleteFriend={this.deleteFriend}
+          component="div"
         />
         <ApplicationViews
           loggedIn={this.state.isUserLoggedIn}
           login={this.login}
           register={this.register}
         />
-      </>
+      </CustomTheme>
     );
   }
 }

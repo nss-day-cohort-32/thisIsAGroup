@@ -22,9 +22,7 @@ export default class Sidebar extends Component {
                           friend.user.id
                         );
                       }}
-                    >
-                      {/* REMOVE */}
-                    </DeleteForeverTwoToneIcon>
+                    />
                   </ListItemIcon>
                 </div>
               ))

@@ -79,8 +79,8 @@ export default class News extends Component {
         {
           this.state.createModalVis ? <CreateNewsModal
             {...this.props}
-            create={this.props.create}
-            hideModal={this.props.hideCreateModal}
+            create={this.addNews}
+            hideModal={this.hideCreateModal}
             modalVis={this.state.createModalVis} /> : null
         }
       </Paper >

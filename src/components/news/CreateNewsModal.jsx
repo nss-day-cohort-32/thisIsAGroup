@@ -6,12 +6,28 @@ export class CreateNewsModal extends Component {
     state = {
         title: null,
         synopsis: null,
-        dateAdded: null,
         url: null
     }
 
-    handleDel = () => {
-        this.props.delete(this.props.newsId)
+    addNews = () => {
+        var dateTime = new Date().toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit"
+        });
+
+        const newsObj = {
+            title: this.state.title,
+            synopsis: this.state.synopsis,
+            dateAdded: dateTime,
+            url: this.state.url
+        }
+
+        this.props.create(newsObj)
+        this.props.hideModal()
     }
 
     handleChange = (e) => {
@@ -32,12 +48,12 @@ export class CreateNewsModal extends Component {
                 <DialogTitle>Add News</DialogTitle>
                 <DialogContent>
                     <TextField autoFocus margin="normal" id="title" label="Title" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
-                    <TextField margin="normal" id="urlImg" label="Image" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
+                    <TextField margin="normal" id="url" label="Image" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
                     <TextField margin="normal" id="synopsis" label="Synopsis" type="text" variant="outlined" multiline rows="5" onChange={this.handleChange} fullWidth />
                 </DialogContent>
                 <DialogActions>
-                    <Button color="error" variant="contained" onClick={this.handleDel}>SUBMIT</Button>
-                    <Button className="" variant="contained" onClick={this.props.hideModal}>CLOSE</Button>
+                    <Button color="secondary" variant="contained" onClick={this.addNews}>SUBMIT</Button>
+                    <Button color="secondary" variant="contained" onClick={this.props.hideModal}>CLOSE</Button>
                 </DialogActions>
 
             </Dialog >

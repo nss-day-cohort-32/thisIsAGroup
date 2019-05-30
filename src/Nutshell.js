@@ -7,10 +7,20 @@ import API from "./modules/dbCalls";
 import { CustomTheme } from "./components/CustomTheme";
 
 class Nutshell extends Component {
-  state = {
-    isUserLoggedIn: false,
-    friends: []
-  };
+  constructor(props) {
+    super(props);
+    let user = sessionStorage.getItem("activeUser");
+    console.log("User ID from session storage", user);
+    console.log(!!user);
+    this.state = {
+      friends: []
+    };
+    if (!!user) {
+      console.log("Inside if block");
+      this.state.isUserLoggedIn = true;
+    } else this.state.isUserLoggedIn = false;
+  }
+
   ///////////////////////////////// start Friends Area //////////////////////////////////////
   getFriends = () => {
     const newState = {};

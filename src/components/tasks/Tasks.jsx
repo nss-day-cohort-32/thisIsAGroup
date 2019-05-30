@@ -15,7 +15,11 @@ const customStyles = {
     right: 'auto',
     bottom: 'auto',
     marginRight: '-50%',
-    transform: 'translate(-50%, -50%)'
+    transform: 'translate(-50%, -50%)',
+    display: 'flex',
+    flexDirection: 'column',
+    border: '4px solid #6E1EE8',
+    padding: '4% 4%'
   }
 };
 
@@ -99,8 +103,10 @@ export default class Tasks extends Component {
             />
             <Button onClick={() => {
               this.setState(
-                { saveDisabled: true,
-                  modalIsOpen: false },
+                {
+                  saveDisabled: true,
+                  modalIsOpen: false
+                },
                 () => this.makeNewTask()
               )
             }}
@@ -110,7 +116,8 @@ export default class Tasks extends Component {
           </Modal>
         </div >
         {this.props.tasks.map(task => {
-          return <TaskItem key={task.id} task={task} />
+          return <TaskItem key={task.id} task={task} deleteTask={this.props.deleteTask} updateTask={this.props.updateTask}
+          updateCheck={this.props.updateCheck} />
         })}
       </div>
     );

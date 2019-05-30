@@ -44,6 +44,42 @@ class ApplicationViews extends Component {
       .then(() => this.props.history.push('/tasks'))
   }
 
+  deleteTask = (taskId) => {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    API.deleteTask(taskId)
+      .then(() => API.getUserTasks(loggedInUser))
+      .then(tasks => {
+        this.props.history.push("/tasks")
+        this.setState({
+          tasks: tasks
+        })
+      })
+  }
+
+  updateTask = (taskId, obj) => {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    API.editTask(taskId, obj)
+    .then(() => API.getUserTasks(loggedInUser))
+      .then(tasks => {
+        this.props.history.push("/tasks")
+        this.setState({
+          tasks: tasks
+        })
+      })
+  }
+
+  updateCheck = (taskId, obj) => {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    API.editTask(taskId, obj)
+    .then(() => API.getUserTasks(loggedInUser))
+      .then(tasks => {
+        this.props.history.push("/tasks")
+        this.setState({
+          tasks: tasks
+        })
+      })
+  }
+
   render() {
     return (
       <>
@@ -83,7 +119,8 @@ class ApplicationViews extends Component {
           render={props => {
             if (this.props.loggedIn) {
               return <Tasks tasks={this.state.tasks} {...props}
-                addTask={this.addTask} />;
+                addTask={this.addTask} deleteTask={this.deleteTask}
+                updateTask={this.updateTask} updateCheck={this.updateCheck}/>;
             } else return <Redirect to="/login" />;
           }}
         />

@@ -17,7 +17,11 @@ const customStyles = {
         right: 'auto',
         bottom: 'auto',
         marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
+        transform: 'translate(-50%, -50%)',
+        display: 'flex',
+        flexDirection: 'column',
+        border: '4px solid #6E1EE8',
+        padding: '4% 4%'
     }
 };
 
@@ -25,24 +29,43 @@ Modal.setAppElement('div')
 
 export default class taskItem extends Component {
     state = {
-        isChecked: null,
-        modalIsOpen: false
+        completed: null,
+        modalIsOpen: false,
+        taskName: "",
+        taskDate: ""
+    }
+
+    saveCheck = (id) => {
+        const checked = {
+            completed: this.state.completed
+        }
+
+        this.props.updateCheck(id, checked)
     }
 
 
     handleCheck = (evt) => {
-        if (this.state.isChecked === false) {
-            this.setState({ isChecked: true })
-        }
+        const stateToChange = {}
+        stateToChange[evt.target.id] = evt.target.value
+        this.setState(stateToChange)
     }
 
-    handleEdit = (evt) => {
-        this.setState(
-            {
-                editNameVis: false,
-            }
-        )
+    handleFieldChange = evt => {
+        const stateToChange = {}
+        stateToChange[evt.target.id] = evt.target.value
+        this.setState(stateToChange)
     }
+
+    saveUpdate = (id) => {
+        const updatedTask = {
+            completed: this.state.completed,
+            name: this.state.taskName,
+            targetCompletionDate: this.state.taskDate
+        }
+
+        this.props.updateTask(id, updatedTask)
+    }
+
 
     openModal = () => {
         this.setState({ modalIsOpen: true });
@@ -62,8 +85,9 @@ export default class taskItem extends Component {
                 <h4 className="completed">Completed: </h4>
                 <div className="checkbox">
                     <Checkbox
+                        id="completed"
                         edge="end"
-                    // onChange={handleToggle(value)}
+                        onChange={this.handleFieldChange}
                     // checked={checked.indexOf(value) !== -1}
                     />
                 </div>
@@ -74,7 +98,12 @@ export default class taskItem extends Component {
                 </div>
                 <div className="deleteTaskButton">
                     <Fab size="small" aria-label="Delete" >
-                        <DeleteIcon />
+                        <DeleteIcon onClick={
+                            () => {
+                                this.setState({ saveDisabled: true },
+                                    () => this.props.deleteTask(this.props.task.id))
+                            }
+                        } />
                     </Fab>
                 </div>
                 <Modal isOpen={this.state.modalIsOpen}
@@ -83,17 +112,18 @@ export default class taskItem extends Component {
                     style={customStyles}>
                     <h2>Edit Task</h2>
                     <TextField
-                        id="standard-name"
+                        id="taskName"
                         label="Task"
                         className="taskToEdit"
-                        // onChange=""
+                        onChange={this.handleFieldChange}
                         margin="normal"
-                        value={this.props.task.name}
+                        placeholder={this.props.task.name}
                     />
                     <TextField
-                        id="date"
+                        id="taskDate"
                         label="Date to complete by"
                         type="date"
+                        onChange={this.handleFieldChange}
                         defaultValue={this.props.task.targetCompletionDate}
                         className="dateToEdit"
                         InputLabelProps={{
@@ -103,8 +133,11 @@ export default class taskItem extends Component {
                     <Button onClick={
                         () => {
                             this.setState(
-                                { saveDisabled: true },
-                                () => this.props.addTask(this.props.animal.id)
+                                {
+                                    saveDisabled: true,
+                                    modalIsOpen: false
+                                },
+                                () => this.saveUpdate(this.props.task.id)
                             )
                         }
                     }

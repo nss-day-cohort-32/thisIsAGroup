@@ -70,8 +70,11 @@ export class NewsItem extends Component {
                     this.state.editModalVis ? <EditNewsModal
                         {...this.props}
                         edit={this.props.edit}
+                        item={this.props.item}
                         newsId={this.props.item.id}
-                        hideModal={this.hideEditModal} /> : null
+                        hideModal={this.hideEditModal}
+                        modalVis={this.state.editModalVis}
+                    /> : null
                 }
                 {
                     this.state.deleteModalVis ? <DeleteNewsModal

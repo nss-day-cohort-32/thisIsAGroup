@@ -1,11 +1,72 @@
 import React, { Component } from 'react'
+import { DialogContent, DialogContentText, DialogActions, Dialog, DialogTitle, Button, TextField } from '@material-ui/core';
 
-export default class EditNewsModal extends Component {
+
+export class CreateNewsModal extends Component {
+    state = {
+        title: null,
+        synopsis: null,
+        url: null
+    }
+
+    componentDidMount() {
+        const newState = {
+            title: this.props.item.title,
+            synopsis: this.props.item.synopsis,
+            url: this.props.item.url
+        }
+        this.setState(newState)
+    }
+
+    addNews = () => {
+        var dateTime = new Date().toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit"
+        });
+
+        const newsObj = {
+            title: this.state.title,
+            synopsis: this.state.synopsis,
+            url: this.state.url
+        }
+
+        this.props.create(newsObj)
+        this.props.hideModal()
+    }
+
+    handleChange = (e) => {
+        const stateToChange = {}
+        stateToChange[e.target.id] = e.target.value
+        this.setState(stateToChange)
+    }
+
     render() {
         return (
-            <div>
+            <Dialog
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={this.props.modalVis}
+                onClose={this.props.hideModal}
+            >
 
-            </div>
+                <DialogTitle>Add News</DialogTitle>
+                <DialogContent>
+                    <TextField autoFocus margin="normal" id="title" label="Title" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
+                    <TextField margin="normal" id="url" label="Image" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
+                    <TextField margin="normal" id="synopsis" label="Synopsis" type="text" variant="outlined" multiline rows="5" onChange={this.handleChange} fullWidth />
+                </DialogContent>
+                <DialogActions>
+                    <Button color="secondary" variant="contained" onClick={this.addNews}>SUBMIT</Button>
+                    <Button color="secondary" variant="contained" onClick={this.props.hideModal}>CLOSE</Button>
+                </DialogActions>
+
+            </Dialog >
         )
     }
 }
+
+export default CreateNewsModal

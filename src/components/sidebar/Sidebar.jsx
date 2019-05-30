@@ -11,21 +11,21 @@ export default class Sidebar extends Component {
         <div className="sidebar">
           {this.props.friends.length > 0
             ? this.props.friends.map(friend => (
-                <div key={friend.user.id}>
-                  <ListItemIcon>
-                    <h2>{friend.user.username}</h2>
+              <div key={friend.user.id}>
+                <h2>{friend.user.username}</h2>
+                <ListItemIcon >
 
-                    <DeleteForeverTwoToneIcon
-                      onClick={() => {
-                        this.props.deleteFriend(
-                          this.loggedInUser,
-                          friend.user.id
-                        );
-                      }}
-                    />
-                  </ListItemIcon>
-                </div>
-              ))
+                  <DeleteForeverTwoToneIcon
+                    onClick={() => {
+                      this.props.deleteFriend(
+                        this.loggedInUser,
+                        friend.user.id
+                      );
+                    }}
+                  />
+                </ListItemIcon>
+              </div>
+            ))
             : null}
         </div>
       </>

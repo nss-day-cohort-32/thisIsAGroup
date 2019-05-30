@@ -1,10 +1,16 @@
 .list {
-    border: 4px solid #5016A8;
+    /* border: 4px solid #5016A8; */
     border-radius: 8px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 10% 4%
+    margin: 4% 4%
+}
+
+.header {
+    text-align: center;
+    font-size: 4em;
+    color: #6E1EE8
 }
 
 .listItem {
@@ -12,7 +18,8 @@
     flex-direction: row;
     justify-content: center;
     margin: 1% 4%;
-    background-color: lightgrey
+    background-color: lightgrey;
+    border-radius: 4px
 }
 
 .taskDiv {
@@ -24,28 +31,34 @@
 .taskName {
     margin-left: 1%;
     margin-right: 8%;
-    margin-top: .5%;
+    margin-top: 1.5%;
 }
 
 .taskDate {
-    margin-top: 1%;
+    margin-top: 2%;
 }
 
 .completed {
-    margin-top: .5%;
-    margin-left: 10%
+    padding-top: .75%;
+    margin-left: 8%
 }
 
 .checkbox {
     margin-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%
 }
 
 .editTaskButton {
-    margin-left: 1%;
+    margin-left: 4%;
+    margin-top: 1%;
+    margin-bottom: 1%
 }
 
 .deleteTaskButton {
-    margin-left: 1%
+    margin-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%
 }
 
 .completed {

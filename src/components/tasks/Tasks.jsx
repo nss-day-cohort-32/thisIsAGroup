@@ -72,6 +72,7 @@ export default class Tasks extends Component {
     return (
 
       <div className="list">
+          <h1 className="header">Task List</h1>
         <div>
           <div className="addTask">
             <Fab color="primary" aria-label="Add" >
@@ -117,7 +118,7 @@ export default class Tasks extends Component {
         </div >
         {this.props.tasks.map(task => {
           return <TaskItem key={task.id} task={task} deleteTask={this.props.deleteTask} updateTask={this.props.updateTask}
-          updateCheck={this.props.updateCheck} />
+            updateCheck={this.props.updateCheck} />
         })}
       </div>
     );

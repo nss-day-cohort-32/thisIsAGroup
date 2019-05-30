@@ -10,7 +10,6 @@ export class CreateNewsModal extends Component {
         const newsObj = {
             title: this.state.title,
             synopsis: this.state.synopsis,
-            dateAdded: dateTime,
             url: this.state.url
         }
 

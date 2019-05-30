@@ -5,9 +5,10 @@ import '@material-ui/core/IconButton'
 import EditNewsModal from './EditNewsModal'
 import DeleteNewsModal from './DeleteNewsModal'
 
+
 export class NewsItem extends Component {
     state = {
-        editmodalVis: false,
+        editModalVis: false,
         deleteModalVis: false
     }
 
@@ -33,7 +34,7 @@ export class NewsItem extends Component {
     }
 
     handleEdit = (_e) => {
-        this.setState({ editmodalVis: true })
+        this.setState({ editModalVis: true })
     }
 
     handleDelete = (_e) => {
@@ -71,7 +72,7 @@ export class NewsItem extends Component {
                         {...this.props}
                         edit={this.props.edit}
                         item={this.props.item}
-                        newsId={this.props.item.id}
+                        id={this.props.item.id}
                         hideModal={this.hideEditModal}
                         modalVis={this.state.editModalVis}
                     /> : null

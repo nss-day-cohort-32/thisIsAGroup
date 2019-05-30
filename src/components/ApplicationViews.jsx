@@ -8,6 +8,7 @@ import News from "./news/News";
 import Chat from "./chat/Chat";
 import SignIn from "./auth/Login";
 import SignUp from "./auth/SignUp";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 class ApplicationViews extends Component {
   state = {
@@ -25,57 +26,9 @@ class ApplicationViews extends Component {
   //   });
   // }
 
-
   render() {
     return (
       <>
-        <Route
-          exact
-          path="/"
-          render={props => {
-            if (this.props.loggedIn) {
-              return <News news={this.state.news} />;
-            } else return <Redirect to="/login" />;
-          }}
-        />
-
-        <Route
-          exact
-          path="/events"
-          render={props => {
-            if (this.props.loggedIn) {
-              return <Events events={this.state.events} />;
-            } else return <Redirect to="/login" />;
-          }}
-        />
-
-        <Route
-          exact
-          path="/chat"
-          render={props => {
-            if (this.props.loggedIn) {
-              return <Chat />;
-            } else return <Redirect to="/login" />;
-          }}
-        />
-
-        <Route
-          exact
-          path="/tasks"
-          render={props => {
-            if (this.props.loggedIn) {
-              return <Tasks />;
-            } else return <Redirect to="/login" />;
-          }}
-        />
-
-        {/* <ProtectedRoute
-          loggedIn={this.props.loggedIn}
-          exact
-          path="/"
-          render={props => <News {...props} />}
-        /> */}
-
         <Route
           exact
           path="/login"
@@ -103,11 +56,19 @@ class ApplicationViews extends Component {
             );
           }}
         />
-        {/* <ProtectedRoute
+
+        <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/"
+          render={props => <News {...props} />}
+        />
+
+        <ProtectedRoute
           loggedIn={this.props.loggedIn}
           exact
           path="/events"
-          render={props => <Events {...props} />}
+          render={props => <Events events={this.state.events} {...props} />}
         />
 
         <ProtectedRoute
@@ -122,7 +83,7 @@ class ApplicationViews extends Component {
           exact
           path="/chat"
           render={props => <Chat {...props} />}
-        /> */}
+        />
       </>
     );
   }

@@ -36,8 +36,8 @@ export class CreateNewsModal extends Component {
                     <TextField margin="normal" id="synopsis" label="Synopsis" type="text" variant="outlined" multiline rows="5" onChange={this.handleChange} fullWidth />
                 </DialogContent>
                 <DialogActions>
-                    <Button color="error" variant="contained" onClick={this.handleDel}>YES</Button>
-                    <Button className="" variant="contained" onClick={this.props.hideModal}>NO</Button>
+                    <Button color="error" variant="contained" onClick={this.handleDel}>SUBMIT</Button>
+                    <Button className="" variant="contained" onClick={this.props.hideModal}>CLOSE</Button>
                 </DialogActions>
 
             </Dialog >

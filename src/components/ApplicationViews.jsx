@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { withRouter } from 'react-router'
+import { withRouter } from "react-router";
 import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";
 import Events from "./events/Events";
 import News from "./news/News";
 import Chat from "./chat/Chat";
 import SignIn from "./auth/Login";
-import SignUp from "./auth/SignUp"
+import SignUp from "./auth/SignUp";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 class ApplicationViews extends Component {
   state = {
@@ -28,8 +29,6 @@ class ApplicationViews extends Component {
   componentDidMount() {
     const loggedInUser = sessionStorage.getItem("activeUser")
     const newState = {}
-
-    console.log(loggedInUser)
 
     API.getUserTasks(loggedInUser)
       .then(tasks => newState.tasks = tasks)
@@ -59,7 +58,7 @@ class ApplicationViews extends Component {
   updateTask = (taskId, obj) => {
     const loggedInUser = sessionStorage.getItem("activeUser")
     API.editTask(taskId, obj)
-    .then(() => API.getUserTasks(loggedInUser))
+      .then(() => API.getUserTasks(loggedInUser))
       .then(tasks => {
         this.props.history.push("/tasks")
         this.setState({
@@ -71,7 +70,7 @@ class ApplicationViews extends Component {
   updateCheck = (taskId, obj) => {
     const loggedInUser = sessionStorage.getItem("activeUser")
     API.editTask(taskId, obj)
-    .then(() => API.getUserTasks(loggedInUser))
+      .then(() => API.getUserTasks(loggedInUser))
       .then(tasks => {
         this.props.history.push("/tasks")
         this.setState({
@@ -85,77 +84,54 @@ class ApplicationViews extends Component {
       <>
         <Route
           exact
-          path="/"
+          path="/login"
           render={props => {
-            if (this.props.loggedIn) {
-              return <News news={this.state.news} />;
-            } else return <Redirect to="/login" />;
+            return (
+              <SignIn
+                {...props}
+                loggedIn={this.props.isUserLoggedIn}
+                login={this.props.login}
+              />
+            );
           }}
         />
 
         <Route
           exact
-          path="/events"
+          path="/sign-up"
           render={props => {
-            if (this.props.loggedIn) {
-              return <Events events={this.state.events} />;
-            } else return <Redirect to="/login" />;
+            return (
+              <SignUp
+                {...props}
+                loggedIn={this.props.isUserLoggedIn}
+                register={this.props.register}
+              />
+            );
           }}
         />
 
-        <Route
-          exact
-          path="/chat"
-          render={props => {
-            if (this.props.loggedIn) {
-              return <Chat />;
-            } else return <Redirect to="/login" />;
-          }}
-        />
-
-        <Route
+        <ProtectedRoute
+        loggedIn={this.props.loggedIn}
           exact
           path="/tasks"
-          render={props => {
-            if (this.props.loggedIn) {
-              return <Tasks tasks={this.state.tasks} {...props}
+          render={props => <Tasks tasks={this.state.tasks} {...props}
                 addTask={this.addTask} deleteTask={this.deleteTask}
-                updateTask={this.updateTask} updateCheck={this.updateCheck}/>;
-            } else return <Redirect to="/login" />;
-          }}
-        />
-
-        {/* <ProtectedRoute
-          loggedIn={this.props.loggedIn}
-          exact
-          path="/"
-          render={props => <News {...props} />}
-        /> */}
-
-        <Route exact path="/login" render={props => {
-          return <SignIn {...props} loggedIn={this.props.isUserLoggedIn}
-            login={this.props.login} />
-        }}
-        />
-
-
-        <Route exact path="/sign-up" render={props => {
-          return <SignUp {...props} loggedIn={this.props.isUserLoggedIn}
-            register={this.props.register} />
-        }}
-        />
-        {/* <ProtectedRoute
-          loggedIn={this.props.loggedIn}
-          exact
-          path="/events"
-          render={props => <Events {...props} />}
+                updateTask={this.updateTask} updateCheck={this.updateCheck} />
+          }
         />
 
         <ProtectedRoute
           loggedIn={this.props.loggedIn}
           exact
-          path="/tasks"
-          render={props => <Tasks {...props} />}
+          path="/"
+          render={props => <News {...props} />}
+        />
+
+        <ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/events"
+          render={props => <Events events={this.state.events} {...props} />}
         />
 
         <ProtectedRoute
@@ -163,10 +139,10 @@ class ApplicationViews extends Component {
           exact
           path="/chat"
           render={props => <Chat {...props} />}
-        /> */}
+        />
       </>
     );
   }
 }
 
-export default withRouter(ApplicationViews)
+export default withRouter(ApplicationViews);

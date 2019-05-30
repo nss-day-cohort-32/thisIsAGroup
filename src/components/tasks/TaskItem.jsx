@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button'
 import Fab from '@material-ui/core/Fab';
@@ -35,19 +34,18 @@ export default class taskItem extends Component {
         taskDate: ""
     }
 
-    saveCheck = (id) => {
+
+    handleCheck = async (evt) => {
+        const stateToChange = {}
+        stateToChange[evt.target.id] = evt.target.checked
+        await this.setState(stateToChange)
+
         const checked = {
             completed: this.state.completed
         }
+        const id = this.props.task.id
 
         this.props.updateCheck(id, checked)
-    }
-
-
-    handleCheck = (evt) => {
-        const stateToChange = {}
-        stateToChange[evt.target.id] = evt.target.value
-        this.setState(stateToChange)
     }
 
     handleFieldChange = evt => {
@@ -87,8 +85,8 @@ export default class taskItem extends Component {
                     <Checkbox
                         id="completed"
                         edge="end"
-                        onChange={this.handleFieldChange}
-                    // checked={checked.indexOf(value) !== -1}
+                        onChange={this.handleCheck}
+                        checked={this.props.task.completed}
                     />
                 </div>
                 <div className="editTaskButton">

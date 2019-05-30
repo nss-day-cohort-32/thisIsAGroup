@@ -5,6 +5,7 @@ import '@material-ui/core/IconButton'
 import EditNewsModal from './EditNewsModal'
 import DeleteNewsModal from './DeleteNewsModal'
 
+
 export class NewsItem extends Component {
     state = {
         editmodalVis: false,

@@ -33,8 +33,8 @@ export default class News extends Component {
       })
   }
 
-  editNews = (obj) => {
-    API.editNews(obj)
+  editNews = (id, obj) => {
+    API.editNews(id, obj)
       .then(_reply => {
         API.getUserNews(sessionStorage.getItem("activeUser"))
           .then(news => {

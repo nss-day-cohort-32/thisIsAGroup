@@ -8,7 +8,7 @@ import DeleteNewsModal from './DeleteNewsModal'
 
 export class NewsItem extends Component {
     state = {
-        editmodalVis: false,
+        editModalVis: false,
         deleteModalVis: false
     }
 
@@ -34,7 +34,7 @@ export class NewsItem extends Component {
     }
 
     handleEdit = (_e) => {
-        this.setState({ editmodalVis: true })
+        this.setState({ editModalVis: true })
     }
 
     handleDelete = (_e) => {
@@ -71,8 +71,11 @@ export class NewsItem extends Component {
                     this.state.editModalVis ? <EditNewsModal
                         {...this.props}
                         edit={this.props.edit}
-                        newsId={this.props.item.id}
-                        hideModal={this.hideEditModal} /> : null
+                        item={this.props.item}
+                        id={this.props.item.id}
+                        hideModal={this.hideEditModal}
+                        modalVis={this.state.editModalVis}
+                    /> : null
                 }
                 {
                     this.state.deleteModalVis ? <DeleteNewsModal

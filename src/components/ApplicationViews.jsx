@@ -25,6 +25,7 @@ class ApplicationViews extends Component {
   //   });
   // }
 
+
   render() {
     return (
       <>

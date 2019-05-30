@@ -5,7 +5,7 @@ export default class Sidebar extends Component {
 
   render() {
     return (
-      <div>
+      <div className="sidebar">
         {this.props.friends.length > 0
           ? this.props.friends.map(friend => (
               <div key={friend.user.id}>

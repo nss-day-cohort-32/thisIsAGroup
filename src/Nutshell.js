@@ -12,28 +12,22 @@ class Nutshell extends Component {
     friends: []
   };
   ///////////////////////////////// start Friends Area //////////////////////////////////////
-  componentDidMount() {
-    const loggedInUser = sessionStorage.getItem("activeUser");
+  getFriends = () => {
     const newState = {};
-
-    API.getFriendsList(loggedInUser, "true", "true")
+    API.getFriendsList(sessionStorage.getItem("activeUser"), "true", "true")
       .then(friends => {
         newState.friends = friends;
       })
 
       .then(() => this.setState(newState));
-  }
+  };
 
-  deleteFriend = (id, friendId) => {
-    const newState = {};
-    API.deleteFriend(id, friendId)
-      .then(API.getFriendsList(id, "true", "true"))
-      .then(friends => {
-        newState.friends = friends;
-      })
-      .then(() => {
-        this.setState(newState);
-      });
+  deleteFriend = async (id, friendId) => {
+    await API.deleteFriend(id, friendId);
+    const newState = {
+      friends: await API.getFriendsList(id, "true", "true")
+    };
+    this.setState(newState);
   };
 
   /////////////////////////////////// End Friends Area //////////////////////////////////////
@@ -45,6 +39,7 @@ class Nutshell extends Component {
         sessionStorage.setItem("activeUser", user[0].id);
         this.setState({ isUserLoggedIn: true });
         this.props.history.push("/");
+        this.getFriends();
       }
     });
   };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { DialogContent, DialogContentText, DialogActions, Dialog, DialogTitle, Button, TextField } from '@material-ui/core';
+import { DialogContent, DialogActions, Dialog, DialogTitle, Button, TextField } from '@material-ui/core';
 
 
 export class EditNewsModal extends Component {

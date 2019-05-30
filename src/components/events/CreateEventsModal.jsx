@@ -2,14 +2,15 @@ import React, { Component } from 'react'
 import { DialogContent, DialogActions, Dialog, DialogTitle, Button, TextField } from '@material-ui/core';
 
 
-export class CreateNewsModal extends Component {
+export class CreateEventsModal extends Component {
     state = {
-        title: null,
-        synopsis: null,
+        name: null,
+        description: null,
+        location: null,
         url: null
     }
 
-    addNews = () => {
+    addEvents = () => {
         var dateTime = new Date().toLocaleString("en-US", {
             year: "numeric",
             month: "short",
@@ -19,14 +20,16 @@ export class CreateNewsModal extends Component {
             second: "2-digit"
         });
 
-        const newsObj = {
-            title: this.state.title,
-            synopsis: this.state.synopsis,
-            dateAdded: dateTime,
+        const eventsObj = {
+            userId: sessionStorage.getItem("activeUser"),
+            name: this.state.name,
+            description: this.state.description,
+            eventDate: dateTime,
+            location: this.state.description,
             url: this.state.url
         }
 
-        this.props.create(newsObj)
+        this.props.create(eventsObj)
         this.props.hideModal()
     }
 
@@ -45,14 +48,15 @@ export class CreateNewsModal extends Component {
                 onClose={this.props.hideModal}
             >
 
-                <DialogTitle>Add News</DialogTitle>
+                <DialogTitle>Add Events</DialogTitle>
                 <DialogContent>
-                    <TextField autoFocus margin="normal" id="title" label="Title" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
+                    <TextField autoFocus margin="normal" id="name" label="Name" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
                     <TextField margin="normal" id="url" label="Image" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
-                    <TextField margin="normal" id="synopsis" label="Synopsis" type="text" variant="outlined" multiline rows="5" onChange={this.handleChange} fullWidth />
+                    <TextField margin="normal" id="description" label="Description" type="text" variant="outlined" multiline rows="5" onChange={this.handleChange} fullWidth />
+                    <TextField margin="normal" id="location" label="Location" type="text" variant="outlined" onChange={this.handleChange} fullWidth />
                 </DialogContent>
                 <DialogActions>
-                    <Button color="secondary" variant="contained" onClick={this.addNews}>SUBMIT</Button>
+                    <Button color="secondary" variant="contained" onClick={this.addEvents}>SUBMIT</Button>
                     <Button color="secondary" variant="contained" onClick={this.props.hideModal}>CLOSE</Button>
                 </DialogActions>
 
@@ -61,4 +65,4 @@ export class CreateNewsModal extends Component {
     }
 }
 
-export default CreateNewsModal
+export default CreateEventsModal

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { DialogContent, DialogContentText, DialogActions, Dialog, DialogTitle, Button } from '@material-ui/core';
-import './news.css'
 
 
 export class DeleteNewsModal extends Component {
@@ -25,7 +24,7 @@ export class DeleteNewsModal extends Component {
                         </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button className="deleteBtn" variant="contained" onClick={this.handleDel}>YES</Button>
+                    <Button color="error" variant="contained" onClick={this.handleDel}>YES</Button>
                     <Button className="" variant="contained" onClick={this.props.hideModal}>NO</Button>
                 </DialogActions>
 

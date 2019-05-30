@@ -3,13 +3,26 @@ import { DialogContent, DialogContentText, DialogActions, Dialog, DialogTitle, B
 
 
 export class CreateNewsModal extends Component {
+    state = {
+        title: null,
+        synopsis: null,
+        url: null
+    }
 
-
-    editNews = () => {
+    addNews = () => {
+        var dateTime = new Date().toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "2-digit",
+            hour: "numeric",
+            minute: "2-digit",
+            second: "2-digit"
+        });
 
         const newsObj = {
             title: this.state.title,
             synopsis: this.state.synopsis,
+            dateAdded: dateTime,
             url: this.state.url
         }
 

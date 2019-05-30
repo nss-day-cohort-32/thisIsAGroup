@@ -18,3 +18,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.nutshell-contentContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  min-width: 160px;
+  background-color: green;
+}
+
+.applicationViews {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+}

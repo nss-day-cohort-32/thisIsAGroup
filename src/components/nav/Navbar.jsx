@@ -61,7 +61,7 @@ export default class Navbar extends Component {
   };
 
   handleLogout = () => {
-    this.props.logout()
+    this.props.logout();
   };
 
   makeIcon = Icon => <Icon />;
@@ -70,6 +70,7 @@ export default class Navbar extends Component {
     return (
       <Tab
         key={link.key}
+        style={{ minWidth: 80 }}
         label={link.name}
         value={link.href}
         component={Link}
@@ -81,22 +82,30 @@ export default class Navbar extends Component {
 
   render() {
     return (
-      <AppBar color="primary" position="static" className="navbar">
+      <AppBar
+        color="primary"
+        position="static"
+        className="navbar"
+        style={{ zIndex: 1900 }}>
         <div className="navbar navbar-flexrow">
           <div>
             <Typography variant="h4" component="h2" color="inherit">
               Nutshell
             </Typography>
           </div>
-          <div className="navbar-linkContainer navbar-flexrow">
-            <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
-              {this.links.map(this.makeLink)}
-            </Tabs>
+          {this.props.loggedIn ? (
+            <div className="navbar-linkContainer navbar-flexrow">
+              <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
+                {this.links.map(this.makeLink)}
+              </Tabs>
 
-            <div className="navbar-logoutContainer" onClick={this.handleLogout}>
-              {this.makeLink(this.logoutLink)}
+              <div
+                className="navbar-logoutContainer"
+                onClick={this.handleLogout}>
+                {this.makeLink(this.logoutLink)}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </AppBar>
     );

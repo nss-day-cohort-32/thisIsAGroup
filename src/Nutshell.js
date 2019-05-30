@@ -8,9 +8,29 @@ import { CustomTheme } from "./components/CustomTheme";
 
 class Nutshell extends Component {
   state = {
-    isUserLoggedIn: false
+    isUserLoggedIn: false,
+    friends: []
+  };
+  ///////////////////////////////// start Friends Area //////////////////////////////////////
+  getFriends = () => {
+    const newState = {};
+    API.getFriendsList(sessionStorage.getItem("activeUser"), "true", "true")
+      .then(friends => {
+        newState.friends = friends;
+      })
+
+      .then(() => this.setState(newState));
   };
 
+  deleteFriend = async (id, friendId) => {
+    await API.deleteFriend(id, friendId);
+    const newState = {
+      friends: await API.getFriendsList(id, "true", "true")
+    };
+    this.setState(newState);
+  };
+
+  /////////////////////////////////// End Friends Area //////////////////////////////////////
   login = (username, password) => {
     API.loginUser(username, password).then(user => {
       if (user.length === 0) {
@@ -19,6 +39,7 @@ class Nutshell extends Component {
         sessionStorage.setItem("activeUser", user[0].id);
         this.setState({ isUserLoggedIn: true });
         this.props.history.push("/");
+        this.getFriends();
       }
     });
   };
@@ -56,7 +77,12 @@ class Nutshell extends Component {
     return (
       <CustomTheme>
         <Navbar loggedIn={this.state.isUserLoggedIn} logout={this.logout} />
-        <Sidebar loggedIn={this.state.isUserLoggedIn} component="div" />
+        <Sidebar
+          loggedIn={this.state.isUserLoggedIn}
+          friends={this.state.friends}
+          deleteFriend={this.deleteFriend}
+          component="div"
+        />
         <ApplicationViews
           loggedIn={this.state.isUserLoggedIn}
           login={this.login}

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { withRouter } from 'react-router'
+import { withRouter } from "react-router";
 import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";
 import Events from "./events/Events";
 import News from "./news/News";
 import Chat from "./chat/Chat";
 import SignIn from "./auth/Login";
-import SignUp from "./auth/SignUp"
+import SignUp from "./auth/SignUp";
 
 class ApplicationViews extends Component {
   state = {
@@ -76,17 +76,32 @@ class ApplicationViews extends Component {
           render={props => <News {...props} />}
         /> */}
 
-        <Route exact path="/login" render={props => {
-          return <SignIn {...props} loggedIn={this.props.isUserLoggedIn}
-            login={this.props.login} />
-        }}
+        <Route
+          exact
+          path="/login"
+          render={props => {
+            return (
+              <SignIn
+                {...props}
+                loggedIn={this.props.isUserLoggedIn}
+                login={this.props.login}
+              />
+            );
+          }}
         />
 
-
-        <Route exact path="/sign-up" render={props => {
-          return <SignUp {...props} loggedIn={this.props.isUserLoggedIn}
-            register={this.props.register} />
-        }}
+        <Route
+          exact
+          path="/sign-up"
+          render={props => {
+            return (
+              <SignUp
+                {...props}
+                loggedIn={this.props.isUserLoggedIn}
+                register={this.props.register}
+              />
+            );
+          }}
         />
         {/* <ProtectedRoute
           loggedIn={this.props.loggedIn}
@@ -113,4 +128,4 @@ class ApplicationViews extends Component {
   }
 }
 
-export default withRouter(ApplicationViews)
+export default withRouter(ApplicationViews);

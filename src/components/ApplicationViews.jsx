@@ -36,6 +36,14 @@ class ApplicationViews extends Component {
       .then(() => this.setState(newState))
   }
 
+  addTask = (task) => {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    API.addTask(task)
+      .then(() => API.getUserTasks(loggedInUser))
+      .then(tasks => this.setState({ tasks: tasks }))
+      .then(() => this.props.history.push('/tasks'))
+  }
+
   render() {
     return (
       <>
@@ -74,7 +82,8 @@ class ApplicationViews extends Component {
           path="/tasks"
           render={props => {
             if (this.props.loggedIn) {
-              return <Tasks tasks={this.state.tasks} />;
+              return <Tasks tasks={this.state.tasks} {...props}
+                addTask={this.addTask} />;
             } else return <Redirect to="/login" />;
           }}
         />

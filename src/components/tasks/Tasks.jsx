@@ -26,7 +26,9 @@ export default class Tasks extends Component {
 
   state = {
     saveDisabled: false,
-    modalIsOpen: false
+    modalIsOpen: false,
+    taskToAdd: "",
+    dateToAdd: ""
   }
 
 
@@ -37,6 +39,28 @@ export default class Tasks extends Component {
 
   closeModal = () => {
     this.setState({ modalIsOpen: false });
+  }
+
+  handleFieldChange = evt => {
+    const stateToChange = {};
+    stateToChange[evt.target.id] = evt.target.value;
+    this.setState(stateToChange);
+  };
+
+  makeNewTask = (evt) => {
+    if (this.state.name === "") {
+      window.alert("please complete form")
+    } else {
+      const loggedInUser = sessionStorage.getItem('activeUser')
+      const task = {
+        userId: loggedInUser,
+        name: this.state.taskToAdd,
+        targetCompletionDate: this.state.dateToAdd,
+        completed: false,
+      }
+
+      this.props.addTask(task)
+    }
   }
 
 
@@ -56,30 +80,30 @@ export default class Tasks extends Component {
             style={customStyles}>
             <h2>New Task</h2>
             <TextField
-              id="standard-name"
+              id="taskToAdd"
               label="Task"
               className="taskToAdd"
-              // onChange=""
+              onChange={this.handleFieldChange}
               margin="normal"
             />
             <TextField
-              id="date"
+              id="dateToAdd"
               label="Date to complete by"
               type="date"
               defaultValue="2017-05-24"
-              className="datToAdd"
+              className="dateToAdd"
+              onChange={this.handleFieldChange}
               InputLabelProps={{
                 shrink: true,
               }}
             />
-            <Button onClick={
-              () => {
-                this.setState(
-                  { saveDisabled: true },
-                  () => this.props.addTask(this.props.animal.id)
-                )
-              }
-            }
+            <Button onClick={() => {
+              this.setState(
+                { saveDisabled: true,
+                  modalIsOpen: false },
+                () => this.makeNewTask()
+              )
+            }}
               disabled={this.state.saveDisabled}
               className="card-link">Add</Button>
             <Button onClick={this.closeModal}>Cancel</Button>

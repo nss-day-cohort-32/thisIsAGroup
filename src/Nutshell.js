@@ -10,13 +10,10 @@ class Nutshell extends Component {
   constructor(props) {
     super(props);
     let user = sessionStorage.getItem("activeUser");
-    console.log("User ID from session storage", user);
-    console.log(!!user);
     this.state = {
       friends: []
     };
     if (!!user) {
-      console.log("Inside if block");
       this.state.isUserLoggedIn = true;
     } else this.state.isUserLoggedIn = false;
   }
@@ -44,7 +41,7 @@ class Nutshell extends Component {
   login = (username, password) => {
     API.loginUser(username, password).then(user => {
       if (user.length === 0) {
-        alert("username and email do not match");
+        alert("username and password do not match");
       } else {
         sessionStorage.setItem("activeUser", user[0].id);
         this.setState({ isUserLoggedIn: true });

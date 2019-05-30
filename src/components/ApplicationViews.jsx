@@ -26,6 +26,59 @@ class ApplicationViews extends Component {
   //   });
   // }
 
+  componentDidMount() {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    const newState = {}
+
+    API.getUserTasks(loggedInUser)
+      .then(tasks => newState.tasks = tasks)
+      .then(() => this.setState(newState))
+  }
+
+  addTask = (task) => {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    API.addTask(task)
+      .then(() => API.getUserTasks(loggedInUser))
+      .then(tasks => this.setState({ tasks: tasks }))
+      .then(() => this.props.history.push('/tasks'))
+  }
+
+  deleteTask = (taskId) => {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    API.deleteTask(taskId)
+      .then(() => API.getUserTasks(loggedInUser))
+      .then(tasks => {
+        this.props.history.push("/tasks")
+        this.setState({
+          tasks: tasks
+        })
+      })
+  }
+
+  updateTask = (taskId, obj) => {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    API.editTask(taskId, obj)
+      .then(() => API.getUserTasks(loggedInUser))
+      .then(tasks => {
+        this.props.history.push("/tasks")
+        this.setState({
+          tasks: tasks
+        })
+      })
+  }
+
+  updateCheck = (taskId, obj) => {
+    const loggedInUser = sessionStorage.getItem("activeUser")
+    API.editTask(taskId, obj)
+      .then(() => API.getUserTasks(loggedInUser))
+      .then(tasks => {
+        this.props.history.push("/tasks")
+        this.setState({
+          tasks: tasks
+        })
+      })
+  }
+
   render() {
     return (
       <>
@@ -58,6 +111,16 @@ class ApplicationViews extends Component {
         />
 
         <ProtectedRoute
+        loggedIn={this.props.loggedIn}
+          exact
+          path="/tasks"
+          render={props => <Tasks tasks={this.state.tasks} {...props}
+                addTask={this.addTask} deleteTask={this.deleteTask}
+                updateTask={this.updateTask} updateCheck={this.updateCheck} />
+          }
+        />
+
+        <ProtectedRoute
           loggedIn={this.props.loggedIn}
           exact
           path="/"
@@ -69,13 +132,6 @@ class ApplicationViews extends Component {
           exact
           path="/events"
           render={props => <Events events={this.state.events} {...props} />}
-        />
-
-        <ProtectedRoute
-          loggedIn={this.props.loggedIn}
-          exact
-          path="/tasks"
-          render={props => <Tasks {...props} />}
         />
 
         <ProtectedRoute

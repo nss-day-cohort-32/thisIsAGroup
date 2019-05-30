@@ -5,6 +5,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import ApplicationViews from "./components/ApplicationViews";
 import API from "./modules/dbCalls";
 import { CustomTheme } from "./components/CustomTheme";
+import { Container } from "@material-ui/core";
 
 class Nutshell extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Nutshell extends Component {
     };
     if (!!user) {
       this.state.isUserLoggedIn = true;
+      this.getFriends();
     } else this.state.isUserLoggedIn = false;
   }
 
@@ -84,17 +86,26 @@ class Nutshell extends Component {
     return (
       <CustomTheme>
         <Navbar loggedIn={this.state.isUserLoggedIn} logout={this.logout} />
-        <Sidebar
-          loggedIn={this.state.isUserLoggedIn}
-          friends={this.state.friends}
-          deleteFriend={this.deleteFriend}
-          component="div"
-        />
-        <ApplicationViews
-          loggedIn={this.state.isUserLoggedIn}
-          login={this.login}
-          register={this.register}
-        />
+        {this.state.isUserLoggedIn ? (
+          <div className="nutshell-contentContainer">
+            <Sidebar
+              loggedIn={this.state.isUserLoggedIn}
+              friends={this.state.friends}
+              deleteFriend={this.deleteFriend}
+            />
+            <ApplicationViews
+              loggedIn={this.state.isUserLoggedIn}
+              login={this.login}
+              register={this.register}
+            />
+          </div>
+        ) : (
+          <ApplicationViews
+            loggedIn={this.state.isUserLoggedIn}
+            login={this.login}
+            register={this.register}
+          />
+        )}
       </CustomTheme>
     );
   }

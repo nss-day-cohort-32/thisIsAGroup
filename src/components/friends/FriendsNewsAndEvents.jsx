@@ -52,7 +52,7 @@ export default class FriendsNewsAndEvents extends Component {
                     <Tab value={0} label="News" />
                     <Tab value={1} label="Events" />
                 </Tabs>
-                <Grid container spacing={2} alignItems="stretch" className="newsContainer" wrap="wrap" direction="column">
+                <Grid container spacing={2} alignItems="stretch" className="newsContainer" wrap="wrap" direction="row">
                     {!!this.state.UserWantsNews ? this.makeEvent(this.state.events) : this.makeNews(this.state.news)}
                 </Grid>
             </Paper>

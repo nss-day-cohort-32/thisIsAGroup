@@ -5,6 +5,7 @@ import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";
 import Events from "./events/Events";
 import News from "./news/News";
+import FriendsNewsAndEvents from './friends/FriendsNewsAndEvents'
 import Chat from "./chat/Chat";
 import SignIn from "./auth/Login";
 import SignUp from "./auth/SignUp";
@@ -130,6 +131,13 @@ class ApplicationViews extends Component {
           loggedIn={this.props.loggedIn}
           exact
           path="/"
+          render={props => <FriendsNewsAndEvents {...props} />}
+        />
+
+<ProtectedRoute
+          loggedIn={this.props.loggedIn}
+          exact
+          path="/news"
           render={props => <News {...props} />}
         />
 

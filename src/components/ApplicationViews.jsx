@@ -5,10 +5,10 @@ import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";
 import Events from "./events/Events";
 import News from "./news/News";
-import Chat from "./chat/Chat";
 import SignIn from "./auth/Login";
 import SignUp from "./auth/SignUp";
 import { ProtectedRoute } from "./ProtectedRoute";
+import Messages from "./messages/Messages";
 
 class ApplicationViews extends Component {
   state = {
@@ -143,8 +143,8 @@ class ApplicationViews extends Component {
         <ProtectedRoute
           loggedIn={this.props.loggedIn}
           exact
-          path="/chat"
-          render={props => <Chat {...props} />}
+          path="/messages"
+          render={props => <Messages {...props} />}
         />
       </div>
     );

@@ -41,9 +41,9 @@ export default class Navbar extends Component {
     },
     {
       key: 4,
-      name: "Chat",
+      name: "Messages",
       icon: Message,
-      href: "/chat",
+      href: "/messages",
       linkAction: ""
     }
   ];

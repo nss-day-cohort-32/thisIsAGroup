@@ -12,7 +12,8 @@ class Nutshell extends Component {
     super(props);
     let user = sessionStorage.getItem("activeUser");
     this.state = {
-      friends: []
+      friends: [],
+      friendRequests: []
     };
     if (!!user) {
       this.state.isUserLoggedIn = true;
@@ -27,12 +28,23 @@ class Nutshell extends Component {
       .then(friends => {
         newState.friends = friends;
       })
+      .then(() =>
+        API.getFriendsList(
+          sessionStorage.getItem("activeUser"),
+          "false",
+          "false"
+        )
+      )
+      .then(friends => (newState.friendRequests = friends))
 
       .then(() => this.setState(newState));
   };
 
   deleteFriend = async (id, friendId) => {
+    console.log(friendId);
+    await API.deleteFriend(friendId, id);
     await API.deleteFriend(id, friendId);
+
     const newState = {
       friends: await API.getFriendsList(id, "true", "true")
     };
@@ -92,6 +104,7 @@ class Nutshell extends Component {
               loggedIn={this.state.isUserLoggedIn}
               friends={this.state.friends}
               deleteFriend={this.deleteFriend}
+              friendRequests={this.state.friendRequests}
             />
             <ApplicationViews
               loggedIn={this.state.isUserLoggedIn}

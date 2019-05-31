@@ -1,14 +1,23 @@
 import React, { Component } from 'react'
-import { Edit, Delete, Link } from '@material-ui/icons'
-import { Card, IconButton, Grid, CardMedia, CardHeader, CardContent, Typography } from '@material-ui/core'
+import { Card, Grid, CardMedia, CardHeader, CardContent, Typography } from '@material-ui/core'
 import '@material-ui/core/IconButton'
 import EditEventsModal from './EditEventModal'
 import DeleteEventsModal from './DeleteEventModal'
+import CardButtons from '../../modules/CardButtons';
 
 export class EventItem extends Component {
   state = {
     editModalVis: false,
-    deleteModalVis: false
+    deleteModalVis: false,
+    isUserItem: false
+  }
+
+  componentDidMount() {
+    const user = parseInt(sessionStorage.getItem("activeUser"))
+    const itemId = this.props.item.userId
+    if (user === itemId) {
+      this.setState({ isUserItem: true })
+    }
   }
 
   paper = {
@@ -57,12 +66,7 @@ export class EventItem extends Component {
             </Typography>
           </CardContent>
           <div className="btnContainer">
-            <IconButton onClick={this.handleEdit} >
-              <Edit />
-            </IconButton>
-            <IconButton onClick={this.handleDelete}>
-              <Delete />
-            </IconButton>
+            {this.state.isUserItem ? <CardButtons handleEdit={this.handleEdit} handleDelete={this.handleDelete} /> : null}
           </div>
         </Card>
         {

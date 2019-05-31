@@ -4,12 +4,23 @@ import { Card, IconButton, Grid, CardMedia, CardHeader, CardContent, Typography 
 import '@material-ui/core/IconButton'
 import EditNewsModal from './EditNewsModal'
 import DeleteNewsModal from './DeleteNewsModal'
+import CardButtons from '../../modules/CardButtons';
+
 
 
 export class NewsItem extends Component {
     state = {
         editModalVis: false,
-        deleteModalVis: false
+        deleteModalVis: false,
+        isUserItem: false
+    }
+
+    componentDidMount() {
+        const user = parseInt(sessionStorage.getItem("activeUser"))
+        const itemId = this.props.item.userId
+        if (user === itemId) {
+            this.setState({ isUserItem: true })
+        }
     }
 
     paper = {
@@ -59,12 +70,7 @@ export class NewsItem extends Component {
                         </Typography>
                     </CardContent>
                     <div className="btnContainer">
-                        <IconButton onClick={this.handleEdit} >
-                            <Edit />
-                        </IconButton>
-                        <IconButton onClick={this.handleDelete}>
-                            <Delete />
-                        </IconButton>
+                        {this.state.isUserItem ? <CardButtons handleEdit={this.handleEdit} handleDelete={this.handleDelete} /> : null}
                     </div>
                 </Card>
                 {

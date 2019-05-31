@@ -9,18 +9,18 @@ export class MessageCardControl extends Component {
     alignItems: "flex-end"
   };
 
-  deleteMess;
-
   // this.props.delete()
   // this.props.edit()
 
   render() {
+    console.log(this.props);
     return (
       <div style={this.cardControlStyle}>
-        {this.props.isLoggedInUserMessage ? (
-          <CardButtons handleEdit={null} handleDelete={null} />
-        ) : null}
-        {this.props.isCurrentFriend ? null : <PersonAdd />}
+        {this.props.isLoggedInUsersMessage ? (
+          <CardButtons {...this.props} />
+        ) : this.props.isCurrentFriend ? null : (
+          <PersonAdd />
+        )}
       </div>
     );
   }

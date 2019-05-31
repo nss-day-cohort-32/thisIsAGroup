@@ -3,9 +3,10 @@ import { Grid, Paper, Fab, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import MessageItem from "./MessageItem";
 import API from "../../modules/dbCalls";
+import { AddMessageBox } from "./AddMessageBox";
 
 export default class Messages extends Component {
-  state = { messages: [] };
+  state = { messages: [], isAddMessageDialogVisible: false };
 
   componentDidMount() {
     this.updateState();
@@ -22,21 +23,12 @@ export default class Messages extends Component {
         false;
   }
 
-  updateState = () => {
+  updateState = () =>
     API.getAllMessages().then(messages => this.setState({ messages }));
-  };
-
-  deleteMessage = messageId => {
+  deleteMessage = messageId =>
     API.deleteMessages(messageId).then(this.updateState);
-  };
-
-  editMessage = (id, obj) => {
-    API.editMessages(id, obj).then(this.updateState);
-  };
-
-  addMessage = obj => {
-    API.addMessages(obj).then(this.updateState);
-  };
+  editMessage = (id, obj) => API.editMessages(id, obj).then(this.updateState);
+  addMessage = obj => API.addMessages(obj).then(this.updateState);
 
   makeMessageItems = messages =>
     messages.map(item => (
@@ -66,6 +58,9 @@ export default class Messages extends Component {
 
         <Grid container direction="column-reverse">
           {this.makeMessageItems(this.state.messages)}
+        </Grid>
+        <Grid>
+          <AddMessageBox addMessage={this.addMessage} />
         </Grid>
       </Paper>
     );

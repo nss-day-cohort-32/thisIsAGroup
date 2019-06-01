@@ -1,8 +1,9 @@
 const API = {
-    loginUser: function (username, password) {
-        return fetch(`http://localhost:8088/users?username=${username}&password=${password}`)
-            .then(response => response.json())
-    },
+  loginUser: function(username, password) {
+    return fetch(
+      `http://localhost:8088/users?username=${username}&password=${password}`
+    ).then(response => response.json());
+  },
   getAllUsers: function() {
     return fetch("http://localhost:8088/users").then(response =>
       response.json()
@@ -182,41 +183,18 @@ const API = {
       body: JSON.stringify(obj)
     }).then(response => response.json());
   },
-  acceptFriends: function(userId, friendUsername) {
-    let obj = {
-      accepted: true,
-      initiate: true
-    };
-    return fetch(
-      `http://localhost:8088/friends?srcUserId=${userId}&accepted=false&_expand=user`
-    )
-      .then(response => response.json())
-      .then(reply => {
-        // debugger
-        // console.log("reply", reply)
-        if (
-          reply.find(freind => freind.user.username === friendUsername) !==
-          undefined
-        ) {
-          // debugger
-          return fetch(
-            `http://localhost:8088/friends?userId=${
-              reply[0].user.id
-            }&srcUserId=${userId}`
-          )
-            .then(response => response.json())
-            .then(reply => {
-              let recordId = reply[0].id;
-              return fetch(`http://localhost:8088/friends/${recordId}`, {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify(obj)
-              }).then(response => response.json());
-            });
-        }
+  acceptFriends: function(userId, friendUserId) {
+    console.log("hello from accept friends");
+    return Promise.all([
+      getFriendPair(userId, friendUserId),
+      getFriendPair(friendUserId, userId)
+    ]).then(replies => {
+      console.log(replies);
+      replies.forEach(reply => {
+        console.log(reply);
+        patchFriend(reply[0].id);
       });
+    });
   },
   deleteFriend: function(userId, friendId) {
     return fetch(
@@ -300,3 +278,19 @@ const API = {
 };
 
 export default API;
+
+function getFriendPair(id1, id2) {
+  return fetch(
+    `http://localhost:8088/friends?srcUserId=${id1}&userId=${id2}`
+  ).then(response => response.json());
+}
+
+function patchFriend(pairId) {
+  return fetch(`http://localhost:8088/friends/${pairId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ accepted: true })
+  }).then(response => response.json());
+}

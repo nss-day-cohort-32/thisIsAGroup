@@ -10,38 +10,39 @@ import { Container } from "@material-ui/core";
 class Nutshell extends Component {
   constructor(props) {
     super(props);
-    let user = sessionStorage.getItem("activeUser");
+    this.user = sessionStorage.getItem("activeUser");
     this.state = {
       friends: [],
-      friendRequests: []
+      friendRequests: [],
+      isUserLoggedIn: !!this.user
     };
-    if (!!user) {
-      this.state.isUserLoggedIn = true;
-      this.getFriends();
-    } else this.state.isUserLoggedIn = false;
   }
 
   ///////////////////////////////// start Friends Area //////////////////////////////////////
-  getFriends = () => {
-    const newState = {};
-    API.getFriendsList(sessionStorage.getItem("activeUser"), "true", "true")
-      .then(friends => {
-        newState.friends = friends;
-      })
-      .then(() =>
-        API.getFriendsList(
-          sessionStorage.getItem("activeUser"),
-          "false",
-          "false"
-        )
+  getFriends = async () => {
+    this.setState({
+      friends: await API.getFriendsList(
+        sessionStorage.getItem("activeUser"),
+        "true",
+        "true"
+      ),
+      friendRequests: await API.getFriendsList(
+        sessionStorage.getItem("activeUser"),
+        "false",
+        "false"
       )
-      .then(friends => (newState.friendRequests = friends))
+    });
+  };
 
-      .then(() => this.setState(newState));
+  acceptFriendRequest = friendId => {
+    return API.acceptFriends(
+      sessionStorage.getItem("activeUser"),
+      friendId
+    ).then(this.getFriends);
   };
 
   deleteFriend = async (id, friendId) => {
-    console.log(friendId);
+    console.log("deleteFriend", friendId);
     await API.deleteFriend(friendId, id);
     await API.deleteFriend(id, friendId);
 
@@ -51,7 +52,11 @@ class Nutshell extends Component {
     this.setState(newState);
   };
 
-  sendFriendRequest = () => {};
+  sendFriendRequest = friendUserName => {
+    console.log("Hello from send friend request");
+    let myUserId = sessionStorage.getItem("activeUser");
+    return API.addFriends(myUserId, friendUserName).then(this.getFriends);
+  };
 
   /////////////////////////////////// End Friends Area //////////////////////////////////////
   login = (username, password) => {
@@ -112,7 +117,9 @@ class Nutshell extends Component {
               friends={this.state.friends}
               friendRequests={this.state.friendRequests}
               deleteFriend={this.deleteFriend}
-              friendRequests={this.state.friendRequests}
+              getFriends={this.getFriends}
+              acceptFriendRequest={this.acceptFriendRequest}
+              sendFriendRequest={this.sendFriendRequest}
             />
             <div style={{ marginLeft: "200px", width: "100%" }}>
               <ApplicationViews

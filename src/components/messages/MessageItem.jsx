@@ -63,7 +63,7 @@ export default class MessageItem extends Component {
 
   render() {
     return (
-      <Grid item style={this.style.grid}>
+      <div style={this.style.grid}>
         <Card raised={true} style={this.style.card}>
           <CardHeader
             title={this.props.item.message}
@@ -99,7 +99,7 @@ export default class MessageItem extends Component {
             hideModal={this.hideEditModal}
           />
         ) : null}
-      </Grid>
+      </div>
     );
   }
 }

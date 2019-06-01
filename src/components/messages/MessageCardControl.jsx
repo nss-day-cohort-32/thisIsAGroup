@@ -13,7 +13,6 @@ export class MessageCardControl extends Component {
   // this.props.edit()
 
   render() {
-    console.log(this.props);
     return (
       <div style={this.cardControlStyle}>
         {this.props.isLoggedInUsersMessage ? (

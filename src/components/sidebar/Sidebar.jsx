@@ -5,6 +5,7 @@ import Search from "./Search";
 import API from "../../modules/dbCalls";
 import Button from "@material-ui/core/Button";
 import { IconButton, Typography } from "@material-ui/core";
+import FriendItem from "../friends/FriendItem";
 
 export default class Sidebar extends Component {
   loggedInUser = sessionStorage.getItem("activeUser");
@@ -13,12 +14,13 @@ export default class Sidebar extends Component {
     allUsers: []
   };
 
-  componentDidMount() {
-    const newState = {};
+  updateState = () => {
+    API.getAllUsers().then(allUsers => this.setState({ allUsers }));
+  };
 
-    API.getAllUsers()
-      .then(allUsers => (newState.allUsers = allUsers))
-      .then(() => this.setState(newState));
+  componentDidMount() {
+    this.updateState();
+    this.props.getFriends();
   }
 
   render() {
@@ -31,29 +33,11 @@ export default class Sidebar extends Component {
           <hr />
           {this.props.friends.length > 0
             ? this.props.friends.map(friend => (
-                <div
+                <FriendItem
+                  friend={friend}
                   key={friend.user.id}
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    margin: ".5rem 1rem",
-                    alignItems: "center"
-                  }}>
-                  <Typography variant="body2">
-                    {friend.user.username}
-                  </Typography>
-                  <IconButton
-                    size="small"
-                    onClick={() => {
-                      this.props.deleteFriend(
-                        this.loggedInUser,
-                        friend.user.id
-                      );
-                    }}>
-                    <DeleteForeverTwoToneIcon />
-                  </IconButton>
-                </div>
+                  deleteFriend={this.props.deleteFriend}
+                />
               ))
             : null}
           <div>
@@ -67,6 +51,11 @@ export default class Sidebar extends Component {
                     <div key={friend.user.id}>
                       <h2>{friend.user.username}</h2>
                       <Button
+                        onClick={() =>
+                          this.props
+                            .acceptFriendRequest(friend.user.id)
+                            .then(this.updateState)
+                        }
                         variant="contained"
                         color="primary"
                         className="acceptBtn">
@@ -91,6 +80,8 @@ export default class Sidebar extends Component {
             <Search
               friends={this.props.friends}
               allUsers={this.state.allUsers}
+              updateState={this.updateState}
+              sendFriendRequest={this.props.sendFriendRequest}
             />
           </div>
         </div>

@@ -3,7 +3,7 @@ import { Button, TextField } from "@material-ui/core";
 
 export class AddMessageBox extends Component {
   state = {
-    message: null
+    message: ""
   };
 
   handleChange = e => {
@@ -28,6 +28,7 @@ export class AddMessageBox extends Component {
       message: this.state.message,
       sendDate: new Date()
     });
+    this.setState({ message: "" });
   };
 
   render() {
@@ -38,8 +39,8 @@ export class AddMessageBox extends Component {
             id="message"
             label="New Message"
             style={{ margin: 8 }}
-            placeholder=""
             fullWidth
+            value={this.state.message}
             margin="normal"
             onChange={this.handleChange}
             InputLabelProps={{

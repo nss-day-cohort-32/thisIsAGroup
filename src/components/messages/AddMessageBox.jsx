@@ -13,16 +13,12 @@ export class AddMessageBox extends Component {
 
   style = {
     div: {
-      width: "80%",
       display: "flex",
       flexDirection: "row"
     },
-    textField: {},
-    button: {
-      minWidth: "20%"
-    },
+    textDiv: { width: "80%", padding: "0 1rem" },
     buttonContainer: {
-      maxWidth: "20%"
+      width: "20%"
     }
   };
 
@@ -37,22 +33,36 @@ export class AddMessageBox extends Component {
   render() {
     return (
       <div style={this.style.div}>
-        <TextField
-          id="message"
-          label="New Message"
-          style={{ margin: 8 }}
-          placeholder=""
-          fullWidth
-          margin="normal"
-          onChange={this.handleChange}
-          InputLabelProps={{
-            shrink: true
-          }}
-        />
-        <div style={this.style.buttonContainer} />
-        <Button variant="outlined" fullWidth={true} onClick={this.sendMessage}>
-          Send it.
-        </Button>
+        <div style={this.style.textDiv}>
+          <TextField
+            id="message"
+            label="New Message"
+            style={{ margin: 8 }}
+            placeholder=""
+            fullWidth
+            margin="normal"
+            onChange={this.handleChange}
+            InputLabelProps={{
+              shrink: true
+            }}
+          />
+        </div>
+
+        <div style={this.style.buttonContainer}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{
+              height: "calc(100% - 16px)",
+              width: "calc(100% - 16px)",
+              margin: "8px",
+              boxSizing: "border-box"
+            }}
+            fullWidth={true}
+            onClick={this.sendMessage}>
+            Send it.
+          </Button>
+        </div>
       </div>
     );
   }

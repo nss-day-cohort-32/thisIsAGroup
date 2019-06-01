@@ -81,7 +81,12 @@ class ApplicationViews extends Component {
 
   render() {
     return (
-      <div className="applicationViews">
+      <div
+        className="applicationViews"
+        style={{
+          width: "90%",
+          margin: "1rem auto"
+        }}>
         <Route
           exact
           path="/login"
@@ -144,7 +149,7 @@ class ApplicationViews extends Component {
           loggedIn={this.props.loggedIn}
           exact
           path="/messages"
-          render={props => <Messages {...props} />}
+          render={props => <Messages {...props} {...this.props} />}
         />
       </div>
     );

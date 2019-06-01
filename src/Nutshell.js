@@ -51,6 +51,8 @@ class Nutshell extends Component {
     this.setState(newState);
   };
 
+  sendFriendRequest = () => {};
+
   /////////////////////////////////// End Friends Area //////////////////////////////////////
   login = (username, password) => {
     API.loginUser(username, password).then(user => {
@@ -99,18 +101,26 @@ class Nutshell extends Component {
       <CustomTheme>
         <Navbar loggedIn={this.state.isUserLoggedIn} logout={this.logout} />
         {this.state.isUserLoggedIn ? (
-          <div className="nutshell-contentContainer">
+          <div
+            className="nutshell-contentContainer"
+            style={{
+              height: "calc(100% - 72px)",
+              marginTop: "72px"
+            }}>
             <Sidebar
               loggedIn={this.state.isUserLoggedIn}
               friends={this.state.friends}
+              friendRequests={this.state.friendRequests}
               deleteFriend={this.deleteFriend}
               friendRequests={this.state.friendRequests}
             />
-            <ApplicationViews
-              loggedIn={this.state.isUserLoggedIn}
-              login={this.login}
-              register={this.register}
-            />
+            <div style={{ marginLeft: "200px", width: "100%" }}>
+              <ApplicationViews
+                loggedIn={this.state.isUserLoggedIn}
+                login={this.login}
+                register={this.register}
+              />
+            </div>
           </div>
         ) : (
           <ApplicationViews

@@ -4,6 +4,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Search from "./Search";
 import API from "../../modules/dbCalls";
 import Button from "@material-ui/core/Button";
+import { IconButton, Typography } from "@material-ui/core";
 
 export default class Sidebar extends Component {
   loggedInUser = sessionStorage.getItem("activeUser");
@@ -23,29 +24,43 @@ export default class Sidebar extends Component {
   render() {
     return (
       <>
-        <div className="sidebar">
-          <h1>Friends</h1>
+        <div className="sidebar" style={{ position: "fixed", height: "100%" }}>
+          <Typography variant="h6" style={{ marginLeft: ".4rem" }}>
+            Friends
+          </Typography>
           <hr />
           {this.props.friends.length > 0
             ? this.props.friends.map(friend => (
-                <div key={friend.user.id}>
-                  <h2>{friend.user.username}</h2>
-                  <ListItemIcon>
-                    <DeleteForeverTwoToneIcon
-                      onClick={() => {
-                        this.props.deleteFriend(
-                          this.loggedInUser,
-                          friend.user.id
-                        );
-                      }}
-                    />
-                  </ListItemIcon>
+                <div
+                  key={friend.user.id}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    margin: ".5rem 1rem",
+                    alignItems: "center"
+                  }}>
+                  <Typography variant="body2">
+                    {friend.user.username}
+                  </Typography>
+                  <IconButton
+                    size="small"
+                    onClick={() => {
+                      this.props.deleteFriend(
+                        this.loggedInUser,
+                        friend.user.id
+                      );
+                    }}>
+                    <DeleteForeverTwoToneIcon />
+                  </IconButton>
                 </div>
               ))
             : null}
           <div>
             <div>
-              <h1>Friend Request</h1>
+              <Typography variant="h6" style={{ marginLeft: ".4rem" }}>
+                Friend Request
+              </Typography>
               <hr />
               {this.props.friendRequests.length > 0
                 ? this.props.friendRequests.map(friend => (
@@ -54,8 +69,7 @@ export default class Sidebar extends Component {
                       <Button
                         variant="contained"
                         color="primary"
-                        className="acceptBtn"
-                      >
+                        className="acceptBtn">
                         Accept
                       </Button>
                       <Button
@@ -67,8 +81,7 @@ export default class Sidebar extends Component {
                             this.loggedInUser,
                             friend.user.id
                           );
-                        }}
-                      >
+                        }}>
                         Deny
                       </Button>
                     </div>

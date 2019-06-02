@@ -20,12 +20,6 @@ class ApplicationViews extends Component {
     events: [{ id: 1, name: "Blah" }]
   };
 
-  // async fetchAll() {
-  //   this.setState({
-  //     tasks: await API.geta
-  //   });
-  // }
-
   componentDidMount() {
     const loggedInUser = sessionStorage.getItem("activeUser");
     const newState = {};
@@ -149,7 +143,19 @@ class ApplicationViews extends Component {
           loggedIn={this.props.loggedIn}
           exact
           path="/messages"
-          render={props => <Messages {...props} {...this.props} />}
+          render={props => (
+            <Messages
+              {...props}
+              {...this.props}
+              friends={this.props.friends}
+              friendRequests={this.props.friendRequests}
+              deleteFriend={this.props.deleteFriend}
+              getFriends={this.props.getFriends}
+              outgoingFriendRequests={this.props.outgoingFriendRequests}
+              acceptFriendRequest={this.props.acceptFriendRequest}
+              sendFriendRequest={this.props.sendFriendRequest}
+            />
+          )}
         />
       </div>
     );

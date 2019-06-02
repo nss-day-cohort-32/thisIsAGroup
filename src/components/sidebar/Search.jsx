@@ -39,12 +39,6 @@ export default class Search extends Component {
 
         if (
           typeof this.props.friends.find(friend => {
-            console.log("Friend object", friend.user.id);
-            console.log("typeofFriend object", typeof friend.user.id);
-
-            console.log("user object", user.id);
-            console.log("typeofuser object", typeof user.id);
-
             return friend.user.id === user.id;
           }) === "object"
         )
@@ -68,7 +62,10 @@ export default class Search extends Component {
 
   makeFriendRequest = friendName => {
     this.showSnackbar();
-    this.props.sendFriendRequest(friendName).then(this.props.updateState);
+    this.props.sendFriendRequest(friendName).then(() => {
+      this.props.updateState();
+      this.search();
+    });
   };
 
   render() {

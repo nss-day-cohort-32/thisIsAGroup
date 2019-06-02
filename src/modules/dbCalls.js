@@ -9,6 +9,11 @@ const API = {
       response.json()
     );
   },
+  getAllUsersExcluding: function(excludingUserId) {
+    return fetch(`http://localhost:8088/users?id_ne=${excludingUserId}`).then(
+      response => response.json()
+    );
+  },
   addUser: function(obj) {
     return fetch("http://localhost:8088/users", {
       method: "POST",
@@ -186,8 +191,8 @@ const API = {
   acceptFriends: function(userId, friendUserId) {
     console.log("hello from accept friends");
     return Promise.all([
-      getFriendPair(userId, friendUserId),
-      getFriendPair(friendUserId, userId)
+      this.getFriendPair(userId, friendUserId),
+      this.getFriendPair(friendUserId, userId)
     ]).then(replies => {
       console.log(replies);
       replies.forEach(reply => {
@@ -281,16 +286,15 @@ const API = {
     return fetch(
       `http://localhost:8088/friends?srcUserId=${userId}&accepted=true&_expand=user`
     ).then(response => response.json());
+  },
+  getFriendPair: function(id1, id2) {
+    return fetch(
+      `http://localhost:8088/friends?srcUserId=${id1}&userId=${id2}`
+    ).then(response => response.json());
   }
 };
 
 export default API;
-
-function getFriendPair(id1, id2) {
-  return fetch(
-    `http://localhost:8088/friends?srcUserId=${id1}&userId=${id2}`
-  ).then(response => response.json());
-}
 
 function patchFriend(pairId) {
   return fetch(`http://localhost:8088/friends/${pairId}`, {

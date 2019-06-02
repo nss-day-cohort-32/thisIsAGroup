@@ -52,16 +52,11 @@ class Nutshell extends Component {
     ).then(this.getFriends);
   };
 
-  deleteFriend = async (id, friendId) => {
-    console.log("deleteFriend", friendId);
-    console.log("id", id);
-    await API.deleteFriend(friendId, id);
-    await API.deleteFriend(id, friendId);
-
-    const newState = {
-      friends: await API.getFriendsList(id, "true", "true")
-    };
-    this.setState(newState);
+  deleteFriend = (id, friendId) => {
+    Promise.all([
+      API.deleteFriend(friendId, id),
+      API.deleteFriend(id, friendId)
+    ]).then(this.getFriends);
   };
 
   sendFriendRequest = friendUserName => {
@@ -137,8 +132,14 @@ class Nutshell extends Component {
             <div style={{ marginLeft: "200px", width: "100%" }}>
               <ApplicationViews
                 loggedIn={this.state.isUserLoggedIn}
+                friends={this.state.friends}
+                friendRequests={this.state.friendRequests}
+                deleteFriend={this.deleteFriend}
+                getFriends={this.getFriends}
                 login={this.login}
-                register={this.register}
+                outgoingFriendRequests={this.state.outgoingFriendRequests}
+                acceptFriendRequest={this.acceptFriendRequest}
+                sendFriendRequest={this.sendFriendRequest}
               />
             </div>
           </div>

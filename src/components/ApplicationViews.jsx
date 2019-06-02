@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { withRouter } from "react-router";
 import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";

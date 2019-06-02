@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Paper, Fab, Typography } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Grid, Paper, Typography } from "@material-ui/core";
 import MessageItem from "./MessageItem";
 import API from "../../modules/dbCalls";
 import { AddMessageBox } from "./AddMessageBox";

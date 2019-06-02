@@ -31,7 +31,7 @@ export class DeleteFriendDialog extends Component {
           </DialogContentText>
           <div
             style={{ width: "90%", marginLeft: "auto", marginRight: "auto" }}>
-            <img src={unfriend} style={{ width: "100%" }} />
+            <img src={unfriend} alt="Unfriend meme" style={{ width: "100%" }} />
           </div>
         </DialogContent>
         <DialogActions>

@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Search from "./Search";
 import API from "../../modules/dbCalls";
 import Button from "@material-ui/core/Button";
-import { IconButton, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import FriendItem from "../friends/FriendItem";
 
 export default class Sidebar extends Component {

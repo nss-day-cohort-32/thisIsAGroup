@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Paper, Fab, Typography } from "@material-ui/core";
+import { Grid, Fab, Typography } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import EventItem from "./EventItem";
 import API from "../../modules/dbCalls";

@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import { Edit, Delete, Link } from "@material-ui/icons";
-import {
-  Card,
-  IconButton,
-  Grid,
-  CardMedia,
-  CardHeader,
-  CardContent,
-  Typography
-} from "@material-ui/core";
+import { Card, CardHeader } from "@material-ui/core";
 import "@material-ui/core/IconButton";
 import { MessageCardControl } from "./MessageCardControl";
 import { DeleteMessageDialog } from "./DeleteMessageDialog";

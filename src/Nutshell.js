@@ -5,7 +5,6 @@ import Sidebar from "./components/sidebar/Sidebar";
 import ApplicationViews from "./components/ApplicationViews";
 import API from "./modules/dbCalls";
 import { CustomTheme } from "./components/CustomTheme";
-import { Container } from "@material-ui/core";
 
 class Nutshell extends Component {
   constructor(props) {

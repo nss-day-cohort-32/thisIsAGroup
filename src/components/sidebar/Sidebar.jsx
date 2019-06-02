@@ -65,13 +65,13 @@ export default class Sidebar extends Component {
                             .then(this.updateState)
                         }
                         variant="contained"
-                        color="primary"
+                        color="secondary"
                         className="acceptBtn">
                         Accept
                       </Button>
                       <Button
                         variant="contained"
-                        color="secondary"
+                        style={{ backgroundColor: "#DB3630" }}
                         className="denyBtn"
                         onClick={() =>
                           this.rejectFriendRequest(friend.user.id)

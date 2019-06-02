@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardHeader } from "@material-ui/core";
+import { Card, CardHeader, Typography } from "@material-ui/core";
 import "@material-ui/core/IconButton";
 import { MessageCardControl } from "./MessageCardControl";
 import { DeleteMessageDialog } from "./DeleteMessageDialog";
@@ -19,7 +19,7 @@ export default class MessageItem extends Component {
     grid: {
       alignSelf: this.props.isUserMessage ? "flex-end" : "flex-start",
       maxWidth: "80%",
-      minWidth: "30%"
+      minWidth: "40%"
     },
     card: {
       display: "flex",
@@ -28,8 +28,8 @@ export default class MessageItem extends Component {
       borderRadius: "15px"
     },
     cardHeader: {
-      width: "80%",
-      backgroundColor: this.props.isUserMessage ? "green" : "orange"
+      width: !this.props.isUserMessage && this.state.isFriend ? "80%" : "100%",
+      backgroundColor: this.props.isUserMessage ? "#69F58A" : "orange"
     }
   };
 
@@ -83,13 +83,17 @@ export default class MessageItem extends Component {
       <div style={this.style.grid}>
         <Card raised={true} style={this.style.card}>
           <CardHeader
-            title={this.props.item.message}
-            subheader={`From: ${
-              this.props.item.user.username
-            }.   Sent: ${new Date(this.props.item.sendDate).toLocaleString(
-              "en-US",
-              this.timeView
-            )}`}
+            title={
+              <Typography variant="h6">{this.props.item.message}</Typography>
+            }
+            subheader={
+              <Typography variant="caption">
+                {`From: ${this.props.item.user.username}. Sent: ${new Date(
+                  this.props.item.sendDate
+                ).toLocaleString("en-US", this.timeView)}
+                `}
+              </Typography>
+            }
             style={this.style.cardHeader}
           />
           <MessageCardControl

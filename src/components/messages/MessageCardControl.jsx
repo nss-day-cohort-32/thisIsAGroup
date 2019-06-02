@@ -7,7 +7,9 @@ export class MessageCardControl extends Component {
   cardControlStyle = {
     display: "flex",
     justifyContent: "center",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
+    width: "20%",
+    backgroundColor: this.props.isUserMessage ? "#69F58A" : "orange"
   };
 
   handleAddFriend = () => {

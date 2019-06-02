@@ -11,7 +11,8 @@ import unfriend from "./unfriend.jpg";
 
 export class DeleteFriendDialog extends Component {
   handleDel = () => {
-    this.props.deleteFriend(this.props.id, this.props.user);
+    console.log(this.props);
+    this.props.deleteFriend(this.props.myUserId, this.props.friend.id);
     this.props.hideModal();
   };
 

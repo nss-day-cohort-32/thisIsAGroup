@@ -8,13 +8,12 @@ export default class Search extends Component {
   state = {
     filteredUsers: [],
     searchResults: [],
+    searchBoxContent: "",
     isSnackbarVisible: false
   };
 
   handleSearch = e => {
-    e.target.value.length > 0
-      ? this.search(e.target.value)
-      : this.clearSearch();
+    this.setState({ searchBoxContent: e.target.value }, this.search);
   };
 
   showSnackbar = () => this.setState({ isSnackbarVisible: true });
@@ -24,13 +23,43 @@ export default class Search extends Component {
     this.setState({ filteredUsers: [] });
   };
 
-  search = searchTerm => {
+  search = () => {
+    if (this.state.searchBoxContent.length === 0) {
+      this.clearSearch();
+      return null;
+    }
     const filteredResults = this.props.allUsers
-      .filter(user => user.username.includes(searchTerm))
+      .filter(user =>
+        user.username
+          .toLowerCase()
+          .includes(this.state.searchBoxContent.toLowerCase())
+      )
       .filter(user => {
-        return !this.props.friends.find(
-          friend => friend.user.username === user.username
-        );
+        // Figure out if user is already a friend or has a pending request
+
+        if (
+          typeof this.props.friends.find(friend => {
+            console.log("Friend object", friend.user.id);
+            console.log("typeofFriend object", typeof friend.user.id);
+
+            console.log("user object", user.id);
+            console.log("typeofuser object", typeof user.id);
+
+            return friend.user.id === user.id;
+          }) === "object"
+        )
+          return false;
+
+        if (
+          typeof this.props.outgoingFriendRequests.find(friend => {
+            console.log("Friend object", friend.user.id);
+            console.log("user object", user.id);
+            return friend.user.id === user.id;
+          }) === "object"
+        )
+          return false;
+
+        return true;
       });
     this.setState({
       filteredUsers: filteredResults
@@ -48,6 +77,7 @@ export default class Search extends Component {
         <div>
           <TextField
             id="searchFriend"
+            value={this.state.searchBoxContent}
             label="Name"
             className="searchFriend"
             placeholder="search"

@@ -197,6 +197,8 @@ const API = {
     });
   },
   deleteFriend: function(userId, friendId) {
+    console.log("User id", userId);
+    console.log("Friend id", friendId);
     return fetch(
       `http://localhost:8088/friends?srcUserId=${userId}&userId=${friendId}`
     )
@@ -273,6 +275,11 @@ const API = {
   getFriendsList: function(userId, TorF, iTorF) {
     return fetch(
       `http://localhost:8088/friends?srcUserId=${userId}&accepted=${TorF}&initiate=${iTorF}&_expand=user`
+    ).then(response => response.json());
+  },
+  getAcceptedFriendsList: function(userId) {
+    return fetch(
+      `http://localhost:8088/friends?srcUserId=${userId}&accepted=true&_expand=user`
     ).then(response => response.json());
   }
 };

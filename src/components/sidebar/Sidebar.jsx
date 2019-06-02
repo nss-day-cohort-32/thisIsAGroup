@@ -77,6 +77,7 @@ export default class Sidebar extends Component {
             </div>
             <Search
               friends={this.props.friends}
+              outgoingFriendRequests={this.props.outgoingFriendRequests}
               allUsers={this.state.allUsers}
               updateState={this.updateState}
               sendFriendRequest={this.props.sendFriendRequest}

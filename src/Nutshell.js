@@ -13,6 +13,7 @@ class Nutshell extends Component {
     this.state = {
       friends: [],
       friendRequests: [],
+      outgoingFriendRequests: [],
       isUserLoggedIn: !!this.user
     };
   }
@@ -20,18 +21,29 @@ class Nutshell extends Component {
   ///////////////////////////////// start Friends Area //////////////////////////////////////
   getFriends = async () => {
     this.setState({
-      friends: await API.getFriendsList(
-        sessionStorage.getItem("activeUser"),
-        "true",
-        "true"
+      friends: await API.getAcceptedFriendsList(
+        sessionStorage.getItem("activeUser")
       ),
       friendRequests: await API.getFriendsList(
         sessionStorage.getItem("activeUser"),
         "false",
         "false"
+      ),
+      outgoingFriendRequests: await API.getFriendsList(
+        sessionStorage.getItem("activeUser"),
+        "false",
+        "true"
       )
     });
   };
+
+  clearState = () =>
+    this.setState({
+      friends: [],
+      friendRequests: [],
+      outgoingFriendRequests: [],
+      isUserLoggedIn: !!this.user
+    });
 
   acceptFriendRequest = friendId => {
     return API.acceptFriends(
@@ -42,6 +54,7 @@ class Nutshell extends Component {
 
   deleteFriend = async (id, friendId) => {
     console.log("deleteFriend", friendId);
+    console.log("id", id);
     await API.deleteFriend(friendId, id);
     await API.deleteFriend(id, friendId);
 
@@ -96,7 +109,7 @@ class Nutshell extends Component {
 
   logout = () => {
     sessionStorage.removeItem("activeUser");
-    this.setState({ isUserLoggedIn: false });
+    this.clearState();
     this.props.history.push("/login");
   };
 
@@ -117,6 +130,7 @@ class Nutshell extends Component {
               friendRequests={this.state.friendRequests}
               deleteFriend={this.deleteFriend}
               getFriends={this.getFriends}
+              outgoingFriendRequests={this.state.outgoingFriendRequests}
               acceptFriendRequest={this.acceptFriendRequest}
               sendFriendRequest={this.sendFriendRequest}
             />

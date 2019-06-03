@@ -66,7 +66,7 @@ export default class News extends Component {
         <Grid container direction="row" wrap="nowrap" justify="space-between" alignItems="center" >
           <Grid item>
             <Typography variant="h3">
-              Breaking News:
+              Breaking News
           </Typography>
           </Grid>
           <Grid item>

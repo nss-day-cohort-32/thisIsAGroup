@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EventItem from "./EventItem";
 import API from '../../modules/dbCalls';
 import CreateEventsModal from './CreateEventsModal';
+import "./events.css"
 
 export default class Events extends Component {
   makeEvent = events =>
@@ -68,7 +69,7 @@ export default class Events extends Component {
         <Grid container direction="row" wrap="nowrap" justify="space-between" alignItems="center" >
           <Grid item>
             <Typography variant="h3">
-              Events:
+              Events
         </Typography>
           </Grid>
           <Grid item>

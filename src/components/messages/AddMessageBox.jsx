@@ -8,7 +8,6 @@ export class AddMessageBox extends Component {
 
   handleChange = e => {
     let message = e.target.value;
-    console.log(e);
     this.setState({ message });
   };
 

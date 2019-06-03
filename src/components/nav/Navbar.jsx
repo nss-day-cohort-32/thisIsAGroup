@@ -88,7 +88,7 @@ export default class Navbar extends Component {
     return (
       <AppBar
         color="primary"
-        position="static"
+        position="fixed"
         className="navbar"
         style={{ zIndex: 1900 }}>
         <div className="navbar navbar-flexrow">

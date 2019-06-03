@@ -1,74 +1,81 @@
 import React, { Component } from "react";
-import DeleteForeverTwoToneIcon from "@material-ui/icons/DeleteForeverTwoTone";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Search from "./Search";
 import API from "../../modules/dbCalls";
 import Button from "@material-ui/core/Button";
+import { Typography, Snackbar, IconButton } from "@material-ui/core";
+import FriendItem from "../friends/FriendItem";
+import { Close } from "@material-ui/icons";
 
 export default class Sidebar extends Component {
-  loggedInUser = sessionStorage.getItem("activeUser");
-
   state = {
-    allUsers: []
+    allUsers: [],
+    isSnackbarVisible: false
   };
 
-  componentDidMount() {
-    const newState = {};
+  updateState = () => {
+    API.getAllUsersExcluding(sessionStorage.getItem("activeUser")).then(
+      allUsers => this.setState({ allUsers })
+    );
+  };
 
-    API.getAllUsers()
-      .then(allUsers => (newState.allUsers = allUsers))
-      .then(() => this.setState(newState));
+  hideSnackbar = () => this.setState({ isSnackbarVisible: false });
+  showSnackbar = () => this.setState({ isSnackbarVisible: true });
+
+  componentDidMount() {
+    this.updateState();
+    this.props.getFriends();
+  }
+
+  rejectFriendRequest(friendId) {
+    this.props.deleteFriend(sessionStorage.getItem("activeUser"), friendId);
+    this.showSnackbar();
   }
 
   render() {
     return (
       <>
-        <div className="sidebar">
-          <h1>Friends</h1>
+        <div className="sidebar" style={{ position: "fixed", height: "100%" }}>
+          <Typography variant="h6" style={{ marginLeft: ".4rem" }}>
+            Friends
+          </Typography>
           <hr />
           {this.props.friends.length > 0
             ? this.props.friends.map(friend => (
-                <div key={friend.user.id}>
-                  <h2>{friend.user.username}</h2>
-                  <ListItemIcon>
-                    <DeleteForeverTwoToneIcon
-                      onClick={() => {
-                        this.props.deleteFriend(
-                          this.loggedInUser,
-                          friend.user.id
-                        );
-                      }}
-                    />
-                  </ListItemIcon>
-                </div>
+                <FriendItem
+                  friend={friend}
+                  key={friend.user.id}
+                  deleteFriend={this.props.deleteFriend}
+                />
               ))
             : null}
           <div>
             <div>
-              <h1>Friend Request</h1>
+              <Typography variant="h6" style={{ marginLeft: ".4rem" }}>
+                Friend Request
+              </Typography>
               <hr />
               {this.props.friendRequests.length > 0
                 ? this.props.friendRequests.map(friend => (
                     <div key={friend.user.id}>
                       <h2>{friend.user.username}</h2>
                       <Button
+                        onClick={() =>
+                          this.props
+                            .acceptFriendRequest(friend.user.id)
+                            .then(this.updateState)
+                        }
                         variant="contained"
-                        color="primary"
-                        className="acceptBtn"
-                      >
+                        color="secondary"
+                        className="acceptBtn">
                         Accept
                       </Button>
                       <Button
                         variant="contained"
-                        color="secondary"
+                        style={{ backgroundColor: "#DB3630" }}
                         className="denyBtn"
-                        onClick={() => {
-                          this.props.deleteFriend(
-                            this.loggedInUser,
-                            friend.user.id
-                          );
-                        }}
-                      >
+                        onClick={() =>
+                          this.rejectFriendRequest(friend.user.id)
+                        }>
                         Deny
                       </Button>
                     </div>
@@ -77,10 +84,32 @@ export default class Sidebar extends Component {
             </div>
             <Search
               friends={this.props.friends}
+              outgoingFriendRequests={this.props.outgoingFriendRequests}
               allUsers={this.state.allUsers}
+              updateState={this.updateState}
+              sendFriendRequest={this.props.sendFriendRequest}
             />
           </div>
         </div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={this.state.isSnackbarVisible}
+          autoHideDuration={2000}
+          message={<span>Rejected!!</span>}
+          onClose={this.hideSnackbar}
+          action={
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={this.hideSnackbar}>
+              <Close />
+            </IconButton>
+          }
+        />
       </>
     );
   }

@@ -1,18 +1,10 @@
 import React, { Component } from "react";
-import { Edit, Delete, Link } from "@material-ui/icons";
-import {
-  Card,
-  IconButton,
-  Grid,
-  CardMedia,
-  CardHeader,
-  CardContent,
-  Typography
-} from "@material-ui/core";
+import { Card, CardHeader, Typography } from "@material-ui/core";
 import "@material-ui/core/IconButton";
 import { MessageCardControl } from "./MessageCardControl";
 import { DeleteMessageDialog } from "./DeleteMessageDialog";
 import { EditMessageDialog } from "./EditMessageDialog";
+import API from "../../modules/dbCalls";
 
 // import EditEventsModal from "./EditEventModal";
 // import DeleteEventsModal from "./DeleteEventModal";
@@ -20,13 +12,14 @@ import { EditMessageDialog } from "./EditMessageDialog";
 export default class MessageItem extends Component {
   state = {
     isDeleteDialogVisible: false,
-    isEditDialogVisible: false
+    isEditDialogVisible: false,
+    isFriend: true
   };
   style = {
     grid: {
-      alignSelf: this.props.isLoggedInUsersMessage ? "flex-end" : "flex-start",
+      alignSelf: this.props.isUserMessage ? "flex-end" : "flex-start",
       maxWidth: "80%",
-      minWidth: "30%"
+      minWidth: "40%"
     },
     card: {
       display: "flex",
@@ -35,9 +28,13 @@ export default class MessageItem extends Component {
       borderRadius: "15px"
     },
     cardHeader: {
-      width: "80%",
-      backgroundColor: "orange"
+      width: !this.props.isUserMessage && this.state.isFriend ? "80%" : "100%",
+      backgroundColor: this.props.isUserMessage ? "#69F58A" : "orange"
     }
+  };
+
+  componentDidMount = () => {
+    this.checkIfFriendOrPending();
   };
 
   hideDeleteModal = () => {
@@ -49,6 +46,26 @@ export default class MessageItem extends Component {
     this.setState({
       isEditDialogVisible: false
     });
+  };
+
+  checkIfFriendOrPending = async () => {
+    // Set "isFriend" state variable to false to show "Add friend button"
+    // else exit the function.
+
+    if (this.props.isUserMessage) return 0;
+
+    let senderId = this.props.item.userId;
+    let result = await API.getFriendPair(
+      sessionStorage.getItem("activeUser"),
+      senderId
+    );
+    if (result.length === 0) this.setState({ isFriend: false });
+  };
+
+  sendFriendRequest = friendName => {
+    // Intercept friend request button submission only to update local state.
+    this.setState({ isFriend: true });
+    this.props.sendFriendRequest(friendName);
   };
 
   handleDelete = _e => this.setState({ isDeleteDialogVisible: true });
@@ -63,20 +80,28 @@ export default class MessageItem extends Component {
 
   render() {
     return (
-      <Grid item style={this.style.grid}>
+      <div style={this.style.grid}>
         <Card raised={true} style={this.style.card}>
           <CardHeader
-            title={this.props.item.message}
-            subheader={new Date(this.props.item.sendDate).toLocaleString(
-              "en-US",
-              this.timeView
-            )}
+            title={
+              <Typography variant="h6">{this.props.item.message}</Typography>
+            }
+            subheader={
+              <Typography variant="caption">
+                {`From: ${this.props.item.user.username}. Sent: ${new Date(
+                  this.props.item.sendDate
+                ).toLocaleString("en-US", this.timeView)}
+                `}
+              </Typography>
+            }
             style={this.style.cardHeader}
           />
           <MessageCardControl
             {...this.props}
             handleEdit={this.handleEdit}
             handleDelete={this.handleDelete}
+            sendFriendRequest={this.sendFriendRequest}
+            isFriend={this.state.isFriend}
           />
         </Card>
 
@@ -99,7 +124,7 @@ export default class MessageItem extends Component {
             hideModal={this.hideEditModal}
           />
         ) : null}
-      </Grid>
+      </div>
     );
   }
 }

@@ -5,50 +5,64 @@ import Sidebar from "./components/sidebar/Sidebar";
 import ApplicationViews from "./components/ApplicationViews";
 import API from "./modules/dbCalls";
 import { CustomTheme } from "./components/CustomTheme";
-import { Container } from "@material-ui/core";
 
 class Nutshell extends Component {
   constructor(props) {
     super(props);
-    let user = sessionStorage.getItem("activeUser");
+    this.user = sessionStorage.getItem("activeUser");
     this.state = {
       friends: [],
-      friendRequests: []
+      friendRequests: [],
+      outgoingFriendRequests: [],
+      isUserLoggedIn: !!this.user
     };
-    if (!!user) {
-      this.state.isUserLoggedIn = true;
-      this.getFriends();
-    } else this.state.isUserLoggedIn = false;
   }
 
   ///////////////////////////////// start Friends Area //////////////////////////////////////
-  getFriends = () => {
-    const newState = {};
-    API.getFriendsList(sessionStorage.getItem("activeUser"), "true", "true")
-      .then(friends => {
-        newState.friends = friends;
-      })
-      .then(() =>
-        API.getFriendsList(
-          sessionStorage.getItem("activeUser"),
-          "false",
-          "false"
-        )
+  getFriends = async () => {
+    this.setState({
+      friends: await API.getAcceptedFriendsList(
+        sessionStorage.getItem("activeUser")
+      ),
+      friendRequests: await API.getFriendsList(
+        sessionStorage.getItem("activeUser"),
+        "false",
+        "false"
+      ),
+      outgoingFriendRequests: await API.getFriendsList(
+        sessionStorage.getItem("activeUser"),
+        "false",
+        "true"
       )
-      .then(friends => (newState.friendRequests = friends))
-
-      .then(() => this.setState(newState));
+    });
   };
 
-  deleteFriend = async (id, friendId) => {
-    console.log(friendId);
-    await API.deleteFriend(friendId, id);
-    await API.deleteFriend(id, friendId);
+  clearState = () =>
+    this.setState({
+      friends: [],
+      friendRequests: [],
+      outgoingFriendRequests: [],
+      isUserLoggedIn: !!this.user
+    });
 
-    const newState = {
-      friends: await API.getFriendsList(id, "true", "true")
-    };
-    this.setState(newState);
+  acceptFriendRequest = friendId => {
+    return API.acceptFriends(
+      sessionStorage.getItem("activeUser"),
+      friendId
+    ).then(this.getFriends);
+  };
+
+  deleteFriend = (id, friendId) => {
+    Promise.all([
+      API.deleteFriend(friendId, id),
+      API.deleteFriend(id, friendId)
+    ]).then(this.getFriends);
+  };
+
+  sendFriendRequest = friendUserName => {
+    console.log("Hello from send friend request");
+    let myUserId = sessionStorage.getItem("activeUser");
+    return API.addFriends(myUserId, friendUserName).then(this.getFriends);
   };
 
   /////////////////////////////////// End Friends Area //////////////////////////////////////
@@ -90,7 +104,7 @@ class Nutshell extends Component {
 
   logout = () => {
     sessionStorage.removeItem("activeUser");
-    this.setState({ isUserLoggedIn: false });
+    this.clearState();
     this.props.history.push("/login");
   };
 
@@ -99,18 +113,35 @@ class Nutshell extends Component {
       <CustomTheme>
         <Navbar loggedIn={this.state.isUserLoggedIn} logout={this.logout} />
         {this.state.isUserLoggedIn ? (
-          <div className="nutshell-contentContainer">
+          <div
+            className="nutshell-contentContainer"
+            style={{
+              height: "calc(100% - 72px)",
+              marginTop: "72px"
+            }}>
             <Sidebar
               loggedIn={this.state.isUserLoggedIn}
               friends={this.state.friends}
-              deleteFriend={this.deleteFriend}
               friendRequests={this.state.friendRequests}
+              deleteFriend={this.deleteFriend}
+              getFriends={this.getFriends}
+              outgoingFriendRequests={this.state.outgoingFriendRequests}
+              acceptFriendRequest={this.acceptFriendRequest}
+              sendFriendRequest={this.sendFriendRequest}
             />
-            <ApplicationViews
-              loggedIn={this.state.isUserLoggedIn}
-              login={this.login}
-              register={this.register}
-            />
+            <div style={{ marginLeft: "200px", width: "100%" }}>
+              <ApplicationViews
+                loggedIn={this.state.isUserLoggedIn}
+                friends={this.state.friends}
+                friendRequests={this.state.friendRequests}
+                deleteFriend={this.deleteFriend}
+                getFriends={this.getFriends}
+                login={this.login}
+                outgoingFriendRequests={this.state.outgoingFriendRequests}
+                acceptFriendRequest={this.acceptFriendRequest}
+                sendFriendRequest={this.sendFriendRequest}
+              />
+            </div>
           </div>
         ) : (
           <ApplicationViews

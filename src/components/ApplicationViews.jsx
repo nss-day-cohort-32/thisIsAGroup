@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { withRouter } from "react-router";
 import API from "../modules/dbCalls";
 import Tasks from "./tasks/Tasks";
@@ -20,12 +20,6 @@ class ApplicationViews extends Component {
     messages: [],
     events: [{ id: 1, name: "Blah" }]
   };
-
-  // async fetchAll() {
-  //   this.setState({
-  //     tasks: await API.geta
-  //   });
-  // }
 
   componentDidMount() {
     const loggedInUser = sessionStorage.getItem("activeUser");
@@ -82,7 +76,12 @@ class ApplicationViews extends Component {
 
   render() {
     return (
-      <div className="applicationViews">
+      <div
+        className="applicationViews"
+        style={{
+          width: "90%",
+          margin: "1rem auto"
+        }}>
         <Route
           exact
           path="/login"
@@ -152,7 +151,19 @@ class ApplicationViews extends Component {
           loggedIn={this.props.loggedIn}
           exact
           path="/messages"
-          render={props => <Messages {...props} />}
+          render={props => (
+            <Messages
+              {...props}
+              {...this.props}
+              friends={this.props.friends}
+              friendRequests={this.props.friendRequests}
+              deleteFriend={this.props.deleteFriend}
+              getFriends={this.props.getFriends}
+              outgoingFriendRequests={this.props.outgoingFriendRequests}
+              acceptFriendRequest={this.props.acceptFriendRequest}
+              sendFriendRequest={this.props.sendFriendRequest}
+            />
+          )}
         />
       </div>
     );

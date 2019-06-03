@@ -41,12 +41,14 @@ export class EditMessageDialog extends Component {
   render() {
     return (
       <Dialog
+        maxWidth="lg"
+        fullWidth
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         open={this.props.open}
         onClose={this.props.hideModal}
         classes={this.style}>
-        <DialogTitle>Add Events</DialogTitle>
+        <DialogTitle>Edit Message</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus

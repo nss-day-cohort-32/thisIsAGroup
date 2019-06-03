@@ -21,7 +21,7 @@ export class CreateEventsModal extends Component {
         });
 
         const eventsObj = {
-            userId: sessionStorage.getItem("activeUser"),
+            userId: parseInt(sessionStorage.getItem("activeUser")),
             name: this.state.name,
             description: this.state.description,
             eventDate: dateTime,

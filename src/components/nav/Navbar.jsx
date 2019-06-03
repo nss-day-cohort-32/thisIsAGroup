@@ -65,8 +65,8 @@ export default class Navbar extends Component {
   };
 
   handleMainPage = () => {
-    this.setState({ tabValue: false })
-  }
+    this.setState({ tabValue: false });
+  };
 
   makeIcon = Icon => <Icon />;
 
@@ -94,28 +94,29 @@ export default class Navbar extends Component {
         <div className="navbar navbar-flexrow">
           <div>
             <Link onClick={this.handleMainPage} to="/">
-              <Typography variant="h4" component="h2" style={{ color: "#d4bff6" }}>
+              <Typography
+                variant="h4"
+                component="h2"
+                style={{ color: "#2d4862" }}>
                 Nutshell
-            </Typography>
+              </Typography>
             </Link>
           </div>
-          {
-            this.props.loggedIn ? (
-              <div className="navbar-linkContainer navbar-flexrow">
-                <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
-                  {this.links.map(this.makeLink)}
-                </Tabs>
+          {this.props.loggedIn ? (
+            <div className="navbar-linkContainer navbar-flexrow">
+              <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
+                {this.links.map(this.makeLink)}
+              </Tabs>
 
-                <div
-                  className="navbar-logoutContainer"
-                  onClick={this.handleLogout}>
-                  {this.makeLink(this.logoutLink)}
-                </div>
+              <div
+                className="navbar-logoutContainer"
+                onClick={this.handleLogout}>
+                {this.makeLink(this.logoutLink)}
               </div>
-            ) : null
-          }
-        </div >
-      </AppBar >
+            </div>
+          ) : null}
+        </div>
+      </AppBar>
     );
   }
 }

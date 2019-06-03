@@ -129,7 +129,12 @@ class Nutshell extends Component {
               acceptFriendRequest={this.acceptFriendRequest}
               sendFriendRequest={this.sendFriendRequest}
             />
-            <div style={{ marginLeft: "200px", width: "100%" }}>
+            <div
+              style={{
+                marginLeft: "200px",
+                width: "100%",
+                marginTop: "calc(72px + 1rem)"
+              }}>
               <ApplicationViews
                 loggedIn={this.state.isUserLoggedIn}
                 friends={this.state.friends}
@@ -144,11 +149,13 @@ class Nutshell extends Component {
             </div>
           </div>
         ) : (
-          <ApplicationViews
-            loggedIn={this.state.isUserLoggedIn}
-            login={this.login}
-            register={this.register}
-          />
+          <div style={{ marginTop: "calc(72px + 1rem)" }}>
+            <ApplicationViews
+              loggedIn={this.state.isUserLoggedIn}
+              login={this.login}
+              register={this.register}
+            />
+          </div>
         )}
       </CustomTheme>
     );

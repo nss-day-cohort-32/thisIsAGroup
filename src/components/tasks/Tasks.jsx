@@ -48,7 +48,7 @@ export default class Tasks extends Component {
   };
 
   makeNewTask = evt => {
-    if (this.state.name === "") {
+    if (this.state.name === "" || this.state.dateToAdd === "") {
       window.alert("please complete form");
     } else {
       const loggedInUser = sessionStorage.getItem("activeUser");
@@ -102,7 +102,6 @@ export default class Tasks extends Component {
                 id="dateToAdd"
                 label="Date to complete by"
                 type="date"
-                defaultValue="2017-05-24"
                 className="dateToAdd"
                 onChange={this.handleFieldChange}
                 InputLabelProps={{
@@ -113,13 +112,11 @@ export default class Tasks extends Component {
                 onClick={() => {
                   this.setState(
                     {
-                      saveDisabled: true,
                       modalIsOpen: false
                     },
                     () => this.makeNewTask()
                   );
                 }}
-                disabled={this.state.saveDisabled}
                 className="card-link">
                 Add
               </Button>

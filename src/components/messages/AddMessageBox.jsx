@@ -8,6 +8,7 @@ export class AddMessageBox extends Component {
 
   handleChange = e => {
     let message = e.target.value;
+    console.log(e);
     this.setState({ message });
   };
 
@@ -20,6 +21,10 @@ export class AddMessageBox extends Component {
     buttonContainer: {
       width: "20%"
     }
+  };
+
+  handleKeyup = e => {
+    if (e.key === "Enter") this.sendMessage();
   };
 
   sendMessage = () => {
@@ -42,6 +47,7 @@ export class AddMessageBox extends Component {
             fullWidth
             value={this.state.message}
             margin="normal"
+            onKeyPress={this.handleKeyup}
             onChange={this.handleChange}
             InputLabelProps={{
               shrink: true

@@ -8,9 +8,10 @@ import {
   Button
 } from "@material-ui/core";
 
-export class DeleteNewsModal extends Component {
+export class DeleteTaskModal extends Component {
   handleDel = () => {
-    this.props.delete(this.props.newsId);
+    this.props.delete(this.props.taskId);
+    this.props.hideModal();
   };
 
   render() {
@@ -20,12 +21,10 @@ export class DeleteNewsModal extends Component {
         aria-describedby="simple-modal-description"
         open={this.props.modalVis}
         onClose={this.props.hideModal}>
-        <DialogTitle>
-          Are you sure you want to delete this news article?
-        </DialogTitle>
+        <DialogTitle>Are you sure you want to delete this task?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Deleted articles cannot be recovered
+            Deleted tasks cannot be recovered
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -47,4 +46,4 @@ export class DeleteNewsModal extends Component {
   }
 }
 
-export default DeleteNewsModal;
+export default DeleteTaskModal;

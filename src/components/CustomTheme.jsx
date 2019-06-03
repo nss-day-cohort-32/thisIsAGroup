@@ -10,6 +10,9 @@ const style = createMuiTheme({
     primaryDark: {
       main: "#85AAC6"
     },
+    navText: {
+      main: "#d4bff6"
+    },
     secondary: { main: "#05B52D" },
     error: { main: "#DB3630" }
   }

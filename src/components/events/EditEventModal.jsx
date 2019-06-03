@@ -54,6 +54,10 @@ export class EditEventsModal extends Component {
                 <DialogTitle>Add Events</DialogTitle>
                 <DialogContent>
                     <TextField autoFocus margin="normal" id="name" label="Name" type="text" variant="outlined" defaultValue={this.state.name} onChange={this.handleChange} fullWidth />
+                    <TextField id="datetime-local" label="Event Date:" type="datetime-local" InputLabelProps={{
+                        shrink: true,
+                    }}
+                    />
                     <TextField margin="normal" id="url" label="Image" type="text" variant="outlined" defaultValue={this.state.url} onChange={this.handleChange} fullWidth />
                     <TextField margin="normal" id="description" label="Description" type="text" variant="outlined" defaultValue={this.state.description} multiline rows="5" onChange={this.handleChange} fullWidth />
                     <TextField margin="normal" id="location" label="Location" type="text" variant="outlined" defaultValue={this.state.location} onChange={this.handleChange} fullWidth />

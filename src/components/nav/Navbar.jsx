@@ -14,7 +14,7 @@ import "./navbar.css";
 export default class Navbar extends Component {
   state = {
     isUserLoggedIn: true,
-    tabValue: "/"
+    tabValue: false
   };
 
   links = [
@@ -22,7 +22,7 @@ export default class Navbar extends Component {
       key: 1,
       name: "News",
       icon: Whatshot,
-      href: "/",
+      href: "/news",
       linkAction: ""
     },
     {
@@ -64,6 +64,10 @@ export default class Navbar extends Component {
     this.props.logout();
   };
 
+  handleMainPage = () => {
+    this.setState({ tabValue: false })
+  }
+
   makeIcon = Icon => <Icon />;
 
   makeLink = link => {
@@ -89,25 +93,29 @@ export default class Navbar extends Component {
         style={{ zIndex: 1900 }}>
         <div className="navbar navbar-flexrow">
           <div>
-            <Typography variant="h4" component="h2" color="inherit">
-              Nutshell
+            <Link onClick={this.handleMainPage} to="/">
+              <Typography variant="h4" component="h2" style={{ color: "#d4bff6" }}>
+                Nutshell
             </Typography>
+            </Link>
           </div>
-          {this.props.loggedIn ? (
-            <div className="navbar-linkContainer navbar-flexrow">
-              <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
-                {this.links.map(this.makeLink)}
-              </Tabs>
+          {
+            this.props.loggedIn ? (
+              <div className="navbar-linkContainer navbar-flexrow">
+                <Tabs value={this.state.tabValue} onChange={this.handleTabChange}>
+                  {this.links.map(this.makeLink)}
+                </Tabs>
 
-              <div
-                className="navbar-logoutContainer"
-                onClick={this.handleLogout}>
-                {this.makeLink(this.logoutLink)}
+                <div
+                  className="navbar-logoutContainer"
+                  onClick={this.handleLogout}>
+                  {this.makeLink(this.logoutLink)}
+                </div>
               </div>
-            </div>
-          ) : null}
-        </div>
-      </AppBar>
+            ) : null
+          }
+        </div >
+      </AppBar >
     );
   }
 }

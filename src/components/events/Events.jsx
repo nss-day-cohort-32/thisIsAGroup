@@ -66,22 +66,18 @@ export default class Events extends Component {
   render() {
     return (
       <Paper>
-        <div className="top">
-          <Grid container direction="row" wrap="nowrap" justify="space-between" alignItems="center" >
-            <div className="heading">
-              <Grid item>
-                <Typography variant="h3">
-                  Events
+        <Grid container direction="row" wrap="nowrap" justify="space-between" alignItems="center" >
+          <Grid item>
+            <Typography variant="h3">
+              Events
         </Typography>
-              </Grid>
-            </div>
-            <Grid item>
-              <Fab color="secondary" onClick={this.handleCreate}>
-                <AddIcon />
-              </Fab>
-            </Grid>
           </Grid>
-        </div>
+          <Grid item>
+            <Fab color="secondary" onClick={this.handleCreate}>
+              <AddIcon />
+            </Fab>
+          </Grid>
+        </Grid>
         <Grid container spacing={2} alignItems="stretch" className="eventsContainer" wrap="wrap" direction="row">{this.makeEvent(this.state.events)}</Grid>
         {
           this.state.createModalVis ? <CreateEventsModal

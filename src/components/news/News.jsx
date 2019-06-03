@@ -63,18 +63,22 @@ export default class News extends Component {
   render() {
     return (
       <Paper>
-        <Grid container direction="row" wrap="nowrap" justify="space-between" alignItems="center" >
-          <Grid item>
-            <Typography variant="h3">
-              Breaking News:
+        <div className="top">
+          <Grid container direction="row" wrap="nowrap" justify="space-between" alignItems="center" >
+            <div className="heading">
+              <Grid item>
+                <Typography variant="h3">
+                  Breaking News
           </Typography>
+              </Grid>
+            </div>
+            <Grid item>
+              <Fab color="secondary" onClick={this.handleCreate}>
+                <AddIcon />
+              </Fab>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Fab color="secondary" onClick={this.handleCreate}>
-              <AddIcon />
-            </Fab>
-          </Grid>
-        </Grid>
+        </div>
         <Grid container spacing={2} alignItems="stretch" className="newsContainer" wrap="wrap" direction="row">{this.makeNews(this.state.news)}</Grid>
         {
           this.state.createModalVis ? <CreateNewsModal

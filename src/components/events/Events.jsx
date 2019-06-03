@@ -4,6 +4,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EventItem from "./EventItem";
 import API from '../../modules/dbCalls';
 import CreateEventsModal from './CreateEventsModal';
+import "./events.css"
 
 export default class Events extends Component {
   makeEvent = events =>
@@ -65,18 +66,22 @@ export default class Events extends Component {
   render() {
     return (
       <Paper>
-        <Grid container direction="row" wrap="nowrap" justify="space-between" alignItems="center" >
-          <Grid item>
-            <Typography variant="h3">
-              Events:
+        <div className="top">
+          <Grid container direction="row" wrap="nowrap" justify="space-between" alignItems="center" >
+            <div className="heading">
+              <Grid item>
+                <Typography variant="h3">
+                  Events
         </Typography>
+              </Grid>
+            </div>
+            <Grid item>
+              <Fab color="secondary" onClick={this.handleCreate}>
+                <AddIcon />
+              </Fab>
+            </Grid>
           </Grid>
-          <Grid item>
-            <Fab color="secondary" onClick={this.handleCreate}>
-              <AddIcon />
-            </Fab>
-          </Grid>
-        </Grid>
+        </div>
         <Grid container spacing={2} alignItems="stretch" className="eventsContainer" wrap="wrap" direction="row">{this.makeEvent(this.state.events)}</Grid>
         {
           this.state.createModalVis ? <CreateEventsModal
